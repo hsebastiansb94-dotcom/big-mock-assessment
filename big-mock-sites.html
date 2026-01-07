@@ -1,206 +1,1036 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BIG Mock Assessment</title>
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BIG Mock Assessment (EN↔ES) — 70 Ítems + Audio + Grabación + Rúbrica</title>
 <style>
-body{
-  margin:0;
-  font-family:system-ui,Segoe UI,Arial,sans-serif;
-  background:linear-gradient(135deg,#fff,#f5f6fa);
-  color:#222;
-}
-header{
-  padding:20px;
-  background:#fff;
-  border-bottom:2px solid #e5e7eb;
-}
-h1{margin:0;font-size:20px}
-.tabs button{
-  margin:4px;
-  padding:10px 14px;
-  border-radius:14px;
-  border:1px solid #ccc;
-  background:#fff;
-  cursor:pointer;
-}
-.tabs button.active{
-  background:#ffe7e8;
-  border-color:#d61f26;
-}
-section{display:none;padding:20px}
-section.active{display:block}
-.card{
-  background:#fff;
-  border:1px solid #ddd;
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:16px;
-}
-button{
-  padding:8px 12px;
-  border-radius:12px;
-  border:1px solid #ccc;
-  background:#fafafa;
-  cursor:pointer;
-}
-button.primary{
-  background:#d61f26;
-  color:#fff;
-  border:none;
-}
-button:disabled{opacity:.5}
-.timer{font-weight:bold}
-.prompt{
-  font-size:16px;
-  padding:14px;
-  border-radius:12px;
-  background:#f8f9fc;
-  border:1px solid #ddd;
-  margin-top:10px;
-}
-.rubric select{margin:4px}
-.notice{
-  background:#fff3cd;
-  border:1px solid #f1c40f;
-  padding:10px;
-  border-radius:12px;
-  margin-bottom:12px;
-}
+  :root{
+    --bg:#f6f7fb;
+    --panel:#ffffff;
+    --text:#1c2430;
+    --muted:#5b6b7e;
+    --border:rgba(20,35,55,.14);
+    --shadow:0 10px 28px rgba(18, 28, 45, .08);
+    --accent:#d61f26;
+    --good:#0ea56b;
+    --warn:#c97a00;
+    --softRed:#ffe7e8;
+    --softBlue:#eaf2ff;
+    --softGray:#f1f3f7;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(1200px 700px at 15% 10%, rgba(214,31,38,.10), transparent 60%),
+      radial-gradient(900px 600px at 85% 15%, rgba(70,130,255,.10), transparent 55%),
+      linear-gradient(180deg, #ffffff, var(--bg));
+    min-height:100vh;
+  }
+  header{max-width:1200px;margin:0 auto;padding:18px 16px 10px}
+  .brand{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .dot{width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px rgba(214,31,38,.12)}
+  h1{margin:0;font-size:18px}
+  p{margin:6px 0;color:var(--muted);line-height:1.45}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 16px 44px}
+
+  .topbar{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;margin:10px 0 14px}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap}
+  .tab{
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.8);
+    padding:10px 12px;border-radius:14px;cursor:pointer;
+  }
+  .tab.active{border-color:rgba(214,31,38,.55);background:rgba(214,31,38,.07);box-shadow:0 0 0 3px rgba(214,31,38,.12) inset}
+
+  .grid{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:1000px){.grid{grid-template-columns:1.2fr .8fr}}
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:14px;
+    box-shadow:var(--shadow);
+  }
+  .card h2{margin:0 0 8px;font-size:15px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .divider{height:1px;background:rgba(20,35,55,.10);margin:10px 0}
+  .btn{
+    border:1px solid var(--border);
+    background:#fff;
+    padding:10px 12px;border-radius:14px;cursor:pointer;
+  }
+  .btn.primary{border-color:rgba(214,31,38,.65);background:rgba(214,31,38,.08)}
+  .btn.good{border-color:rgba(14,165,107,.45);background:rgba(14,165,107,.08)}
+  .btn.warn{border-color:rgba(201,122,0,.45);background:rgba(201,122,0,.08)}
+  .btn:disabled{opacity:.55;cursor:not-allowed}
+  .pill{
+    padding:6px 10px;border-radius:999px;border:1px solid var(--border);
+    color:var(--muted);font-size:12px;background:rgba(255,255,255,.75)
+  }
+  .pill strong{color:var(--text)}
+  .input,.select{
+    border:1px solid var(--border);
+    padding:9px 10px;border-radius:14px;background:#fff;
+  }
+  .prompt{
+    padding:12px;border-radius:16px;border:1px solid var(--border);
+    background:linear-gradient(180deg,#fff,#fbfbff);
+  }
+  .meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+  .badge{
+    font-size:12px;padding:5px 9px;border-radius:999px;border:1px solid var(--border);
+    background:var(--softGray);color:var(--muted);
+  }
+  .badge.en{border-color:rgba(70,130,255,.35);background:var(--softBlue);color:#254a9a}
+  .badge.es{border-color:rgba(14,165,107,.35);background:rgba(14,165,107,.10);color:#0a6b48}
+  .badge.rec{border-color:rgba(214,31,38,.35);background:var(--softRed);color:#8a1014}
+  .text{font-size:15px;line-height:1.5}
+  .small{font-size:12px;color:var(--muted);line-height:1.45}
+  .notice{
+    margin-top:10px;padding:10px 12px;border-radius:14px;
+    border:1px solid rgba(214,31,38,.25);
+    background:rgba(214,31,38,.06);
+    color:#7b1215;font-size:12px;line-height:1.4;
+  }
+  .rubricGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(min-width:650px){.rubricGrid{grid-template-columns:1fr 1fr 1fr 1fr}}
+  .rubItem{border:1px solid var(--border);border-radius:14px;padding:10px;background:#fff}
+  .rubItem label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+  .mono{font-variant-numeric:tabular-nums}
+  audio{width:100%;border-radius:14px}
+  .hidden{display:none !important}
+  .listScroll{max-height:560px;overflow:auto;padding-right:4px}
+  .miniRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 </style>
 </head>
 
 <body>
-
 <header>
-<h1>🔴 BIG Mock Assessment — EN ↔ ES</h1>
-<div class="tabs">
-<button class="active" onclick="openTab('home')">Resumen</button>
-<button onclick="openTab('p1')">Parte 1</button>
-<button onclick="openTab('p2')">Parte 2</button>
-<button onclick="openTab('p3')">Parte 3</button>
-<button onclick="openTab('audio')">Mis audios</button>
-<button onclick="openTab('inst')">Instructor</button>
-</div>
+  <div class="brand">
+    <span class="dot" aria-hidden="true"></span>
+    <h1>BIG Mock Assessment (EN↔ES) — 70 Ítems + Audio + Grabación + Rúbrica</h1>
+  </div>
+  <p class="small">
+    Mock de práctica (no oficial): Sight (10), Diálogo (20), Terminología (40).
+    Cada ítem tiene <b>audio TTS</b>, <b>grabación</b>, <b>rúbrica</b> y <b>progreso por estudiante</b>.
+  </p>
+  <div id="jsStatus" class="notice">⏳ Cargando JavaScript…</div>
 </header>
 
-<section id="home" class="active">
-<div class="card">
-<p><b>Instrucciones</b></p>
-<ul>
-<li>Graba cada respuesta</li>
-<li>Usa primera persona</li>
-<li>Descarga el audio</li>
-</ul>
-<p>Timer: <span class="timer" id="timer">00</span></p>
-<button onclick="startTimer()">▶ Iniciar</button>
-<button onclick="stopTimer()">⏹ Parar</button>
-</div>
-</section>
+<div class="wrap">
+  <div class="topbar">
+    <div class="tabs">
+      <button class="tab active" data-tab="overview">Resumen</button>
+      <button class="tab" data-tab="p1">Parte 1 — Sight (10)</button>
+      <button class="tab" data-tab="p2">Parte 2 — Diálogo (20)</button>
+      <button class="tab" data-tab="p3">Parte 3 — Terminología (40)</button>
+      <button class="tab" data-tab="recordings">Mis audios</button>
+    </div>
 
-<section id="p1">
-<div class="card">
-<h3>Parte 1 — Sight</h3>
-<div class="prompt" id="p1text"></div>
-<br>
-<button onclick="record()">🎙 Grabar</button>
-<button onclick="stopRecord()">⏹ Parar</button>
-<button onclick="download()">⬇ Descargar</button>
-</div>
-</section>
+    <div class="row">
+      <label class="pill">Estudiante:
+        <input class="input" id="studentName" placeholder="Nombre / ID" style="min-width:220px">
+      </label>
+      <button class="btn good" id="saveStudent">Guardar</button>
+      <span class="pill">Timer: <strong class="mono" id="timerRead">00:00</strong></span>
+    </div>
+  </div>
 
-<section id="p2">
-<div class="card">
-<h3>Parte 2 — Diálogo</h3>
-<div class="prompt" id="p2text"></div>
-</div>
-</section>
+  <!-- OVERVIEW -->
+  <section id="overview" class="grid">
+    <div class="card">
+      <h2>Controles</h2>
+      <div class="divider"></div>
 
-<section id="p3">
-<div class="card">
-<h3>Parte 3 — Terminología</h3>
-<div class="prompt" id="p3text"></div>
-</div>
-</section>
+      <div class="row">
+        <span class="pill"><strong>Auto-siguiente</strong></span>
+        <label class="pill"><input type="checkbox" id="autoNextTimer" checked> al terminar timer</label>
+        <label class="pill"><input type="checkbox" id="autoNextStop"> al parar grabación</label>
+      </div>
 
-<section id="audio">
-<div class="card">
-<h3>Audios grabados</h3>
-<div id="audioList"></div>
-</div>
-</section>
+      <div class="divider"></div>
 
-<section id="inst">
-<div class="card">
-<h3>Modo Instructor</h3>
-<input id="pass" placeholder="Clave 1122">
-<button onclick="login()">Entrar</button>
-<p id="instStatus"></p>
+      <div class="row">
+        <span class="pill"><strong>Timer por ítem</strong></span>
+        <label class="pill">P1:
+          <select class="select" id="tP1">
+            <option value="40">40s</option><option value="50" selected>50s</option><option value="60">60s</option>
+          </select>
+        </label>
+        <label class="pill">P2:
+          <select class="select" id="tP2">
+            <option value="30">30s</option><option value="40" selected>40s</option><option value="50">50s</option>
+          </select>
+        </label>
+        <label class="pill">P3:
+          <select class="select" id="tP3">
+            <option value="6">6s</option><option value="8" selected>8s</option><option value="10">10s</option>
+          </select>
+        </label>
+        <label class="pill"><input type="checkbox" id="beepOn" checked> beep</label>
+      </div>
+
+      <div class="miniRow" style="margin-top:8px">
+        <button class="btn primary" id="startTimer">▶ Iniciar timer</button>
+        <button class="btn" id="stopTimer">■ Parar timer</button>
+        <span class="pill">Sección activa: <strong id="activeSection">Resumen</strong></span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="row">
+        <span class="pill"><strong>Random</strong></span>
+        <button class="btn" id="shuffleP1">Random P1</button>
+        <button class="btn" id="shuffleP2">Random P2</button>
+        <button class="btn" id="shuffleP3">Random P3</button>
+        <button class="btn warn" id="shuffleAll">Random TODO</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="row" style="justify-content:space-between">
+        <span class="pill">Completados: <strong id="doneCount">0</strong> / <strong id="totalCount">70</strong></span>
+        <span class="pill">Promedio final (1–5): <strong id="avgScore">—</strong></span>
+        <button class="btn warn" id="resetProgress">Reiniciar progreso (estudiante)</button>
+      </div>
+
+      <div class="notice">
+        <b>Audio de preguntas:</b> se reproduce con voz del navegador (TTS).  
+        <b>Grabación:</b> queda para descargar (no se sube a internet).
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Audio (TTS) — ajustes</h2>
+      <div class="divider"></div>
+      <div class="row">
+        <label class="pill">Voz:
+          <select class="select" id="voiceSelect" style="min-width:260px"></select>
+        </label>
+        <label class="pill">Velocidad:
+          <select class="select" id="rateSel">
+            <option value="0.9">0.9x</option>
+            <option value="1" selected>1.0x</option>
+            <option value="1.1">1.1x</option>
+            <option value="1.2">1.2x</option>
+          </select>
+        </label>
+        <label class="pill">Tono:
+          <select class="select" id="pitchSel">
+            <option value="0.9">0.9</option>
+            <option value="1" selected>1.0</option>
+            <option value="1.1">1.1</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="small">
+        Si no escuchas audio: revisa que tu navegador tenga sonido activo y permite reproducción.  
+        En algunos equipos la lista de voces tarda 2–3 segundos en aparecer.
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTS -->
+  <section id="p1" class="grid hidden">
+    <div class="card">
+      <h2>Parte 1 — Sight (10) (EN→ES)</h2>
+      <div class="row">
+        <button class="btn" id="p1Prev">Anterior</button>
+        <button class="btn primary" id="p1Next">Siguiente</button>
+        <span class="pill">Ítem: <strong id="p1Pos">1</strong>/10</span>
+      </div>
+      <div class="divider"></div>
+      <div id="p1Prompt" class="prompt"></div>
+    </div>
+    <div class="card">
+      <h2>Lista P1</h2>
+      <div class="divider"></div>
+      <div id="p1List" class="listScroll"></div>
+    </div>
+  </section>
+
+  <section id="p2" class="grid hidden">
+    <div class="card">
+      <h2>Parte 2 — Diálogo (20) (EN↔ES)</h2>
+      <div class="row">
+        <button class="btn" id="p2Prev">Anterior</button>
+        <button class="btn primary" id="p2Next">Siguiente</button>
+        <span class="pill">Turno: <strong id="p2Pos">1</strong>/20</span>
+      </div>
+      <div class="divider"></div>
+      <div id="p2Prompt" class="prompt"></div>
+    </div>
+    <div class="card">
+      <h2>Lista P2</h2>
+      <div class="divider"></div>
+      <div id="p2List" class="listScroll"></div>
+    </div>
+  </section>
+
+  <section id="p3" class="grid hidden">
+    <div class="card">
+      <h2>Parte 3 — Terminología (40) (EN→ES)</h2>
+      <div class="row">
+        <button class="btn" id="p3Prev">Anterior</button>
+        <button class="btn primary" id="p3Next">Siguiente</button>
+        <span class="pill">Término: <strong id="p3Pos">1</strong>/40</span>
+      </div>
+      <div class="divider"></div>
+      <div id="p3Prompt" class="prompt"></div>
+    </div>
+    <div class="card">
+      <h2>Lista P3</h2>
+      <div class="divider"></div>
+      <div id="p3List" class="listScroll"></div>
+    </div>
+  </section>
+
+  <!-- RECORDINGS -->
+  <section id="recordings" class="grid hidden">
+    <div class="card">
+      <h2>Mis grabaciones (esta sesión)</h2>
+      <div class="row">
+        <button class="btn good" id="downloadAll">⬇️ Descargar todos</button>
+        <span class="pill">Audios: <strong id="recCount">0</strong></span>
+      </div>
+      <div class="divider"></div>
+      <div id="recList"></div>
+      <div class="notice">
+        Los audios no se guardan tras recargar (por seguridad del navegador). Descárgalos.
+      </div>
+    </div>
+    <div class="card">
+      <h2>Progreso</h2>
+      <div class="divider"></div>
+      <p class="small">
+        El progreso (rúbricas/completado/orden random) se guarda por <b>Nombre/ID</b> en este navegador.
+      </p>
+    </div>
+  </section>
 </div>
-</section>
 
 <script>
-/* ---------- TABS ---------- */
-function openTab(id){
-  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-  document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  event.target.classList.add("active");
+/* ===========================
+   0) JS status + errores
+=========================== */
+(function(){
+  const js = document.getElementById("jsStatus");
+  js.textContent = "✅ JavaScript activo.";
+  js.style.background = "rgba(14,165,107,.08)";
+  js.style.borderColor = "rgba(14,165,107,.35)";
+  js.style.color = "#0a6b48";
+  window.addEventListener("error", (e)=>{
+    const js2 = document.getElementById("jsStatus");
+    js2.textContent = "❌ Error de JavaScript: " + (e.message || "revisa el archivo");
+    js2.style.background = "rgba(214,31,38,.08)";
+    js2.style.borderColor = "rgba(214,31,38,.35)";
+    js2.style.color = "#7b1215";
+  });
+})();
+
+/* ===========================
+   1) Datos (70 ítems) — Mock realista
+=========================== */
+const BASE_P1 = [
+  {id:"P1-01",from:"EN",text:"INTERPRETER PRE-SESSION: I will interpret everything said in the first person, keep all information confidential, and I may ask for repetition or clarification when needed."},
+  {id:"P1-02",from:"EN",text:"CONSENT: I understand this visit may be recorded for quality purposes. I agree to proceed with interpretation services today."},
+  {id:"P1-03",from:"EN",text:"MEDICATION: Take one tablet by mouth every twelve hours for seven days. Finish all medication even if you feel better."},
+  {id:"P1-04",from:"EN",text:"WARNING: Stop taking this medication and seek immediate care if you develop facial swelling, trouble breathing, or hives."},
+  {id:"P1-05",from:"EN",text:"DISCHARGE: Return to the emergency room if you have chest pain, shortness of breath, severe headache, weakness on one side, or confusion."},
+  {id:"P1-06",from:"EN",text:"LABS: Your blood sugar today is two hundred fifteen milligrams per deciliter. We will review diet changes and medication adjustments."},
+  {id:"P1-07",from:"EN",text:"FOLLOW-UP: Please schedule an appointment with your primary care provider within one to two weeks and bring your updated medication list."},
+  {id:"P1-08",from:"EN",text:"IMAGING PREP: Do not eat or drink for six hours before your CT scan with contrast. Tell staff if you have kidney disease or take metformin."},
+  {id:"P1-09",from:"EN",text:"PATIENT RIGHTS: You have the right to receive information in a language you understand and to ask questions about your care."},
+  {id:"P1-10",from:"EN",text:"PAYMENT: Your co-pay is due at the time of service. If you cannot pay today, please ask about payment plans."}
+];
+
+const BASE_P2 = [
+  {id:"P2-01",from:"EN",role:"Provider",text:"Hello. Before we start, can you confirm your full name and date of birth?"},
+  {id:"P2-02",from:"ES",role:"Paciente",text:"Sí, me llamo Ana María Ríos y nací el catorce de marzo de mil novecientos ochenta y nueve."},
+  {id:"P2-03",from:"EN",role:"Provider",text:"Thank you. What is the main reason for your call today?"},
+  {id:"P2-04",from:"ES",role:"Paciente",text:"Tengo dolor de garganta y fiebre desde hace dos días."},
+  {id:"P2-05",from:"EN",role:"Provider",text:"What is your temperature and how are you measuring it?"},
+  {id:"P2-06",from:"ES",role:"Paciente",text:"Treinta y ocho punto cinco con termómetro digital, por la boca."},
+  {id:"P2-07",from:"EN",role:"Provider",text:"Any shortness of breath, chest pain, or trouble swallowing your saliva?"},
+  {id:"P2-08",from:"ES",role:"Paciente",text:"No dolor de pecho no, pero sí me duele al tragar y siento el cuello inflamado."},
+  {id:"P2-09",from:"EN",role:"Provider",text:"Do you have a cough? Is it dry or with mucus? Any sick contacts?"},
+  {id:"P2-10",from:"ES",role:"Paciente",text:"Tengo tos seca. Mi hijo estuvo enfermo la semana pasada."},
+  {id:"P2-11",from:"EN",role:"Provider",text:"Any medication allergies? What medicines are you taking right now?"},
+  {id:"P2-12",from:"ES",role:"Paciente",text:"Soy alérgica a la penicilina. Estoy tomando acetaminofén y té caliente."},
+  {id:"P2-13",from:"EN",role:"Provider",text:"On a scale from zero to ten, how bad is the throat pain? Any ear pain?"},
+  {id:"P2-14",from:"ES",role:"Paciente",text:"Como siete. Y sí, me duele un poco el oído derecho."},
+  {id:"P2-15",from:"EN",role:"Provider",text:"We’ll do a rapid strep test and possibly a COVID and flu test. If strep is positive, we’ll choose an antibiotic safe with your allergy."},
+  {id:"P2-16",from:"ES",role:"Paciente",text:"¿Hoy mismo me atienden o me toca pedir cita?"},
+  {id:"P2-17",from:"EN",role:"Provider",text:"We can see you today at three thirty PM. Please arrive fifteen minutes early, wear a mask, and bring your ID and insurance card."},
+  {id:"P2-18",from:"ES",role:"Paciente",text:"Listo. ¿Qué hago si me sube más la fiebre en la noche?"},
+  {id:"P2-19",from:"EN",role:"Provider",text:"If your fever is one hundred three Fahrenheit or higher, if you have difficulty breathing, or if you cannot swallow fluids, go to urgent care or the ER."},
+  {id:"P2-20",from:"ES",role:"Paciente",text:"Entendido. Muchas gracias."}
+];
+
+const BASE_P3 = [
+  "sore throat","fever","swollen lymph nodes","earache","dry cough","mucus / phlegm","shortness of breath","chest pain",
+  "trouble swallowing","rapid strep test","allergy to penicillin","hives","facial swelling","anaphylaxis","side effects","dose",
+  "every twelve hours","take with food","finish the full course","over-the-counter medication","acetaminophen","ibuprofen","antibiotic",
+  "viral infection","bacterial infection","dehydration","nausea","vomiting","diarrhea","abdominal pain","blood pressure","heart rate",
+  "oxygen saturation","telehealth visit","urgent care","emergency room","follow-up appointment","primary care provider","consent","confidentiality"
+].map((t,i)=>({id:`P3-${String(i+1).padStart(2,"0")}`,from:"EN",text:t}));
+
+/* ===========================
+   2) Estado por estudiante (LocalStorage)
+=========================== */
+const $ = (id)=>document.getElementById(id);
+
+const KEY_PREFIX = "BIG_MOCK_V1";
+function keyFor(studentId, suffix){ return `${KEY_PREFIX}::${studentId || "DEFAULT"}::${suffix}`; }
+
+const state = {
+  student: localStorage.getItem(keyFor("DEFAULT","student")) || "",
+  idx: {p1:0,p2:0,p3:0},
+  orders: {p1:null,p2:null,p3:null},
+  timing: {p1:50,p2:40,p3:8},
+  beepOn: true,
+  autoNextTimer: true,
+  autoNextStop: false,
+  activeTab: "overview",
+  timer: {running:false,t:0,interval:null,section:"p1"},
+  progress: {} // id -> {accuracy, completeness, delivery, protocol, final, done}
+};
+
+// session recordings (not persisted)
+const recordings = {}; // id -> {url, blob, filename}
+let micStream=null, mediaRecorder=null, currentRecId=null, chunks=[];
+
+/* ===========================
+   3) Utilidades
+=========================== */
+function esc(s){
+  return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+function fmt(sec){ return `${String(Math.floor(sec/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`; }
+function langBadge(item){
+  return item.from==="EN" ? `<span class="badge en">EN → ES</span>` : `<span class="badge es">ES → EN</span>`;
+}
+function defaultRubric(){ return {accuracy:3,completeness:3,delivery:3,protocol:3,final:3,done:false}; }
+function calcFinal(v){ return Math.round(((v.accuracy+v.completeness+v.delivery+v.protocol)/4)*100)/100; }
+
+function saveAll(){
+  const sid = (state.student || "DEFAULT").trim();
+  localStorage.setItem(keyFor("DEFAULT","student"), sid); // last used
+  localStorage.setItem(keyFor(sid,"idx"), JSON.stringify(state.idx));
+  localStorage.setItem(keyFor(sid,"orders"), JSON.stringify(state.orders));
+  localStorage.setItem(keyFor(sid,"progress"), JSON.stringify(state.progress));
+  localStorage.setItem(keyFor(sid,"timing"), JSON.stringify(state.timing));
+  localStorage.setItem(keyFor(sid,"opts"), JSON.stringify({
+    beepOn: state.beepOn,
+    autoNextTimer: state.autoNextTimer,
+    autoNextStop: state.autoNextStop
+  }));
 }
 
-/* ---------- DATA ---------- */
-const p1=["Read and interpret in first person."];
-const p2=["Provider: How are you feeling today?"];
-const p3=["Sore throat"];
+function loadForStudent(sid){
+  const id = (sid || "DEFAULT").trim();
+  state.student = id === "" ? "DEFAULT" : id;
 
-document.getElementById("p1text").textContent=p1[0];
-document.getElementById("p2text").textContent=p2[0];
-document.getElementById("p3text").textContent=p3[0];
+  const idx = localStorage.getItem(keyFor(state.student,"idx"));
+  const orders = localStorage.getItem(keyFor(state.student,"orders"));
+  const progress = localStorage.getItem(keyFor(state.student,"progress"));
+  const timing = localStorage.getItem(keyFor(state.student,"timing"));
+  const opts = localStorage.getItem(keyFor(state.student,"opts"));
 
-/* ---------- TIMER ---------- */
-let t=0,intv;
+  state.idx = idx ? JSON.parse(idx) : {p1:0,p2:0,p3:0};
+  state.orders = orders ? JSON.parse(orders) : {p1:null,p2:null,p3:null};
+  state.progress = progress ? JSON.parse(progress) : {};
+  state.timing = timing ? JSON.parse(timing) : {p1:50,p2:40,p3:8};
+
+  const o = opts ? JSON.parse(opts) : {beepOn:true,autoNextTimer:true,autoNextStop:false};
+  state.beepOn = !!o.beepOn;
+  state.autoNextTimer = !!o.autoNextTimer;
+  state.autoNextStop = !!o.autoNextStop;
+
+  $("studentName").value = state.student==="DEFAULT" ? "" : state.student;
+  $("tP1").value = String(state.timing.p1);
+  $("tP2").value = String(state.timing.p2);
+  $("tP3").value = String(state.timing.p3);
+  $("beepOn").checked = state.beepOn;
+  $("autoNextTimer").checked = state.autoNextTimer;
+  $("autoNextStop").checked = state.autoNextStop;
+
+  updateOverview();
+  refreshLists();
+  renderCurrent();
+  saveAll();
+}
+
+function getArrays(){
+  // apply saved random order
+  const applyOrder = (items, order)=>{
+    if(!Array.isArray(order) || order.length!==items.length) return [...items];
+    const map=new Map(items.map(x=>[x.id,x]));
+    const out=[];
+    for(const id of order){ const it=map.get(id); if(it) out.push(it); }
+    return out.length===items.length ? out : [...items];
+  };
+  const p1 = applyOrder(BASE_P1, state.orders.p1);
+  const p2 = applyOrder(BASE_P2, state.orders.p2);
+  const p3 = applyOrder(BASE_P3, state.orders.p3);
+  return {p1,p2,p3,all:[...p1,...p2,...p3]};
+}
+
+function shuffleArray(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function beep(){
+  try{
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+    const o=ctx.createOscillator(); const g=ctx.createGain();
+    o.type="sine"; o.frequency.value=880; g.gain.value=0.05;
+    o.connect(g); g.connect(ctx.destination);
+    o.start();
+    setTimeout(()=>{ o.stop(); ctx.close(); }, 140);
+  }catch{}
+}
+
+/* ===========================
+   4) TTS (Audio de preguntas) con speechSynthesis
+=========================== */
+let voices = [];
+function loadVoices(){
+  voices = speechSynthesis.getVoices() || [];
+  const sel = $("voiceSelect");
+  sel.innerHTML = "";
+  if(!voices.length){
+    sel.innerHTML = `<option value="">(Cargando voces...)</option>`;
+    return;
+  }
+  voices.forEach((v, idx)=>{
+    const opt=document.createElement("option");
+    opt.value=String(idx);
+    opt.textContent = `${v.name} — ${v.lang}`;
+    sel.appendChild(opt);
+  });
+  // heurística: preferir en-US si existe
+  const preferred = voices.findIndex(v => /en-US/i.test(v.lang));
+  sel.value = preferred>=0 ? String(preferred) : "0";
+}
+if("speechSynthesis" in window){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function speakText(text, langHint){
+  stopSpeak();
+  if(!("speechSynthesis" in window)){
+    alert("Tu navegador no soporta audio TTS (speechSynthesis).");
+    return;
+  }
+  const u = new SpeechSynthesisUtterance(text);
+  const rate = Number($("rateSel").value || "1");
+  const pitch = Number($("pitchSel").value || "1");
+  u.rate = rate; u.pitch = pitch;
+
+  const idx = Number($("voiceSelect").value || "0");
+  if(voices[idx]) u.voice = voices[idx];
+
+  // hint: intenta setear lang (ayuda a pronunciación)
+  u.lang = langHint || (voices[idx]?.lang || "en-US");
+  speechSynthesis.speak(u);
+}
+function stopSpeak(){
+  try{ speechSynthesis.cancel(); }catch{}
+}
+
+/* ===========================
+   5) Grabación por ítem
+=========================== */
+async function ensureMic(){
+  if(micStream) return micStream;
+  if(!navigator.mediaDevices?.getUserMedia) throw new Error("Tu navegador no soporta grabación.");
+  micStream = await navigator.mediaDevices.getUserMedia({audio:true});
+  return micStream;
+}
+function pickMime(){
+  if(!window.MediaRecorder) return null;
+  const c=["audio/webm;codecs=opus","audio/webm","audio/mp4"];
+  return c.find(t=>MediaRecorder.isTypeSupported(t)) || null;
+}
+function filenameFor(id){
+  const base=(state.student||"student").replace(/[^\w\-]+/g,"_");
+  const ts=new Date().toISOString().replace(/[:.]/g,"-");
+  return `${base}_${id}_${ts}.webm`;
+}
+function setRecUI(id, isRec){
+  const st = document.getElementById(`recStatus-${id}`);
+  const has = !!recordings[id];
+  if(st) st.textContent = isRec ? "Grabando…" : (has ? "Listo (con clip)" : "Listo");
+
+  const bStart = document.querySelector(`button[data-rec="start"][data-id="${id}"]`);
+  const bStop  = document.querySelector(`button[data-rec="stop"][data-id="${id}"]`);
+  const bDl    = document.querySelector(`button[data-rec="download"][data-id="${id}"]`);
+
+  if(bStart) bStart.disabled = isRec;
+  if(bStop)  bStop.disabled = !isRec;
+  if(bDl)    bDl.disabled = !has;
+}
+
+async function startRecording(id){
+  if(mediaRecorder && mediaRecorder.state==="recording") return;
+  await ensureMic();
+  const mime = pickMime();
+  if(!mime) throw new Error("MediaRecorder no disponible en este navegador.");
+
+  chunks = [];
+  currentRecId = id;
+  mediaRecorder = new MediaRecorder(micStream, {mimeType:mime});
+  mediaRecorder.ondataavailable = (e)=>{ if(e.data && e.data.size>0) chunks.push(e.data); };
+  mediaRecorder.onstop = ()=>{
+    const blob = new Blob(chunks, {type:mime});
+    const url = URL.createObjectURL(blob);
+    if(recordings[id]?.url) URL.revokeObjectURL(recordings[id].url);
+    recordings[id] = { url, blob, filename: filenameFor(id) };
+
+    const player = document.getElementById(`player-${id}`);
+    if(player){ player.src = url; player.style.display = "block"; }
+
+    setRecUI(id, false);
+    renderRecList();
+
+    // auto-next on stop recording
+    if(state.autoNextStop) nextInActiveSection();
+  };
+
+  mediaRecorder.start();
+  setRecUI(id, true);
+}
+
+function stopRecording(id){
+  if(!mediaRecorder || mediaRecorder.state!=="recording") return;
+  if(id !== currentRecId) return;
+  mediaRecorder.stop();
+  currentRecId = null;
+}
+
+function downloadRecording(id){
+  const r = recordings[id];
+  if(!r) return;
+  const a=document.createElement("a");
+  a.href=r.url;
+  a.download=r.filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+function renderRecList(){
+  const ids = Object.keys(recordings);
+  $("recCount").textContent = String(ids.length);
+  const el = $("recList");
+  if(!ids.length){
+    el.innerHTML = `<p class="small">Aún no has grabado audios en esta sesión.</p>`;
+    return;
+  }
+  el.innerHTML = ids.map(id=>{
+    const r = recordings[id];
+    return `
+      <div class="prompt" style="margin-bottom:10px">
+        <div class="meta">
+          <span class="pill"><strong>${esc(id)}</strong></span>
+          <span class="pill">${esc(r.filename)}</span>
+          <button class="btn good" data-rec="download" data-id="${esc(id)}">⬇️ Descargar</button>
+        </div>
+        <audio controls src="${r.url}"></audio>
+      </div>
+    `;
+  }).join("");
+}
+
+/* ===========================
+   6) Rúbrica por ítem
+=========================== */
+function setRubric(id, key, val){
+  const v = state.progress[id] || defaultRubric();
+  v[key] = val;
+  v.final = calcFinal(v);
+  state.progress[id] = v;
+  saveAll();
+  updateOverview();
+  const fin = document.getElementById(`final-${id}`);
+  if(fin) fin.textContent = v.final.toFixed(2);
+}
+function markDone(id){
+  const v = state.progress[id] || defaultRubric();
+  v.done = true;
+  v.final = calcFinal(v);
+  state.progress[id] = v;
+  saveAll();
+  updateOverview();
+  refreshLists();
+  renderCurrent();
+}
+function clearItem(id){
+  delete state.progress[id];
+  saveAll();
+  updateOverview();
+  refreshLists();
+  renderCurrent();
+}
+
+/* ===========================
+   7) Render de cada ítem
+=========================== */
+function rubricSelect(id, key, label, val){
+  return `
+    <div class="rubItem">
+      <label>${label}</label>
+      <select class="select" data-rubric="1" data-id="${esc(id)}" data-key="${esc(key)}">
+        ${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===val?"selected":""}>${n}</option>`).join("")}
+      </select>
+    </div>
+  `;
+}
+
+function promptHTML(item, pos, total){
+  const v = state.progress[item.id] || defaultRubric();
+  const has = !!recordings[item.id];
+  const role = item.role ? `<span class="badge">${esc(item.role)}</span>` : "";
+
+  // audio text: speak the prompt text as-is
+  const audioText = item.text;
+
+  // language hint
+  const langHint = item.from==="ES" ? "es-ES" : "en-US";
+
+  return `
+    <div class="meta">
+      <span class="pill"><strong>${esc(item.id)}</strong> · ${pos}/${total}</span>
+      ${langBadge(item)} ${role}
+      <span class="badge rec">Grabación: <strong id="recStatus-${esc(item.id)}">${has ? "Listo (con clip)" : "Listo"}</strong></span>
+      <span class="pill">Final: <strong class="mono" id="final-${esc(item.id)}">${typeof v.final==="number" ? v.final.toFixed(2) : "—"}</strong></span>
+      <span class="pill">Estado: <strong style="color:${v.done ? "var(--good)" : "var(--warn)"}">${v.done ? "Completado" : "Pendiente"}</strong></span>
+    </div>
+
+    <div class="text">${esc(item.text)}</div>
+
+    <div class="divider"></div>
+
+    <div class="row">
+      <button class="btn primary" data-tts="play" data-lang="${langHint}" data-text="${esc(audioText)}">🔊 Reproducir pregunta</button>
+      <button class="btn" data-tts="stop">🔇 Detener</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="row">
+      <button class="btn primary" data-rec="start" data-id="${esc(item.id)}">🎙️ Grabar respuesta</button>
+      <button class="btn" data-rec="stop" data-id="${esc(item.id)}" disabled>⏹️ Parar</button>
+      <button class="btn good" data-rec="download" data-id="${esc(item.id)}" ${has ? "" : "disabled"}>⬇️ Descargar</button>
+    </div>
+
+    <audio id="player-${esc(item.id)}" controls style="margin-top:10px; display:${has?"block":"none"}" ${has?`src="${recordings[item.id].url}"`:""}></audio>
+
+    <div class="divider"></div>
+
+    <h2 style="margin:0 0 8px">Rúbrica (1–5)</h2>
+    <div class="rubricGrid">
+      ${rubricSelect(item.id,"accuracy","Accuracy",v.accuracy)}
+      ${rubricSelect(item.id,"completeness","Completeness",v.completeness)}
+      ${rubricSelect(item.id,"delivery","Delivery",v.delivery)}
+      ${rubricSelect(item.id,"protocol","Protocol",v.protocol)}
+    </div>
+
+    <div class="row" style="margin-top:10px">
+      <button class="btn good" data-act="done" data-id="${esc(item.id)}">✓ Marcar completado</button>
+      <button class="btn" data-act="clear" data-id="${esc(item.id)}">Limpiar</button>
+    </div>
+
+    <div class="small" style="margin-top:8px">
+      5=excelente · 4=muy bien · 3=aceptable · 2=problemas serios · 1=no logrado
+    </div>
+  `;
+}
+
+function listHTML(items, prefix){
+  return items.map((it, idx)=>{
+    const v = state.progress[it.id] || defaultRubric();
+    const has = !!recordings[it.id];
+    return `
+      <div class="prompt" style="margin-bottom:10px">
+        <div class="meta">
+          <span class="pill"><strong>${esc(it.id)}</strong></span>
+          ${langBadge(it)}
+          ${it.role?`<span class="badge">${esc(it.role)}</span>`:""}
+          <span class="pill">Final: <strong class="mono">${typeof v.final==="number"?v.final.toFixed(2):"—"}</strong></span>
+          <span class="badge rec">Audio resp.: <strong>${has?"Sí":"No"}</strong></span>
+        </div>
+        <div class="row">
+          <button class="btn primary" data-nav="${prefix}" data-index="${idx}">Ir</button>
+          <button class="btn good" data-act="done" data-id="${esc(it.id)}">✓</button>
+          <button class="btn" data-act="clear" data-id="${esc(it.id)}">Limpiar</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function refreshLists(){
+  const {p1,p2,p3} = getArrays();
+  $("p1List").innerHTML = listHTML(p1,"p1");
+  $("p2List").innerHTML = listHTML(p2,"p2");
+  $("p3List").innerHTML = listHTML(p3,"p3");
+}
+
+function renderCurrent(){
+  const {p1,p2,p3} = getArrays();
+
+  state.idx.p1 = Math.max(0, Math.min(state.idx.p1, p1.length-1));
+  state.idx.p2 = Math.max(0, Math.min(state.idx.p2, p2.length-1));
+  state.idx.p3 = Math.max(0, Math.min(state.idx.p3, p3.length-1));
+
+  $("p1Pos").textContent = String(state.idx.p1+1);
+  $("p2Pos").textContent = String(state.idx.p2+1);
+  $("p3Pos").textContent = String(state.idx.p3+1);
+
+  $("p1Prompt").innerHTML = promptHTML(p1[state.idx.p1], state.idx.p1+1, p1.length);
+  $("p2Prompt").innerHTML = promptHTML(p2[state.idx.p2], state.idx.p2+1, p2.length);
+  $("p3Prompt").innerHTML = promptHTML(p3[state.idx.p3], state.idx.p3+1, p3.length);
+
+  setRecUI(p1[state.idx.p1].id, false);
+  setRecUI(p2[state.idx.p2].id, false);
+  setRecUI(p3[state.idx.p3].id, false);
+}
+
+/* ===========================
+   8) Progreso global (overview)
+=========================== */
+function updateOverview(){
+  const {all,p1,p2,p3} = getArrays();
+  const vals = Object.values(state.progress);
+
+  const done = vals.filter(v=>v?.done).length;
+  const scored = vals.filter(v=>typeof v?.final==="number");
+  const avg = scored.length ? (scored.reduce((a,v)=>a+v.final,0)/scored.length) : null;
+
+  $("doneCount").textContent = String(done);
+  $("totalCount").textContent = String(all.length);
+  $("avgScore").textContent = avg ? avg.toFixed(2) : "—";
+}
+
+/* ===========================
+   9) Tabs + navegación
+=========================== */
+function setTab(tabId){
+  state.activeTab = tabId;
+  document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+
+  $(tabId).classList.remove("hidden");
+  document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add("active");
+
+  const label = tabId==="overview" ? "Resumen" : tabId.toUpperCase();
+  $("activeSection").textContent = label;
+
+  // timer section mapping
+  if(tabId==="p1") state.timer.section = "p1";
+  if(tabId==="p2") state.timer.section = "p2";
+  if(tabId==="p3") state.timer.section = "p3";
+  saveAll();
+}
+
+function nextInActiveSection(){
+  if(state.activeTab==="p1") $("p1Next").click();
+  else if(state.activeTab==="p2") $("p2Next").click();
+  else if(state.activeTab==="p3") $("p3Next").click();
+}
+
+/* ===========================
+   10) Timer
+=========================== */
+function stopTimer(){
+  if(state.timer.interval) clearInterval(state.timer.interval);
+  state.timer.interval = null;
+  state.timer.running = false;
+}
 function startTimer(){
   stopTimer();
-  intv=setInterval(()=>{t++;document.getElementById("timer").textContent=t},1000);
-}
-function stopTimer(){clearInterval(intv);}
-
-/* ---------- RECORDING ---------- */
-let rec,stream,chunks=[],currentBlob;
-
-async function record(){
-  stream=await navigator.mediaDevices.getUserMedia({audio:true});
-  rec=new MediaRecorder(stream);
-  chunks=[];
-  rec.ondataavailable=e=>chunks.push(e.data);
-  rec.onstop=()=>{
-    currentBlob=new Blob(chunks,{type:"audio/webm"});
-    const url=URL.createObjectURL(currentBlob);
-    const a=document.createElement("audio");
-    a.controls=true;a.src=url;
-    document.getElementById("audioList").appendChild(a);
-  };
-  rec.start();
-}
-function stopRecord(){ if(rec) rec.stop(); }
-function download(){
-  if(!currentBlob) return;
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(currentBlob);
-  a.download="response.webm";
-  a.click();
+  state.timer.running = true;
+  state.timer.t = 0;
+  $("timerRead").textContent = "00:00";
+  state.timer.interval = setInterval(()=>{
+    state.timer.t++;
+    $("timerRead").textContent = fmt(state.timer.t);
+    const limit = state.timing[state.timer.section];
+    if(state.timer.t >= limit){
+      stopTimer();
+      if(state.beepOn) beep();
+      if(state.autoNextTimer) nextInActiveSection();
+    }
+  }, 1000);
 }
 
-/* ---------- INSTRUCTOR ---------- */
-function login(){
-  document.getElementById("instStatus").textContent =
-    document.getElementById("pass").value==="1122"
-    ? "Instructor desbloqueado"
-    : "Clave incorrecta";
-}
+/* ===========================
+   11) Eventos UI
+=========================== */
+// Tabs
+document.querySelectorAll(".tab").forEach(btn=>{
+  btn.addEventListener("click", ()=> setTab(btn.dataset.tab));
+});
+
+// Prev/Next
+$("p1Prev").onclick = ()=>{ state.idx.p1 = Math.max(0, state.idx.p1-1); saveAll(); renderCurrent(); };
+$("p1Next").onclick = ()=>{ const {p1}=getArrays(); state.idx.p1 = Math.min(p1.length-1, state.idx.p1+1); saveAll(); renderCurrent(); };
+$("p2Prev").onclick = ()=>{ state.idx.p2 = Math.max(0, state.idx.p2-1); saveAll(); renderCurrent(); };
+$("p2Next").onclick = ()=>{ const {p2}=getArrays(); state.idx.p2 = Math.min(p2.length-1, state.idx.p2+1); saveAll(); renderCurrent(); };
+$("p3Prev").onclick = ()=>{ state.idx.p3 = Math.max(0, state.idx.p3-1); saveAll(); renderCurrent(); };
+$("p3Next").onclick = ()=>{ const {p3}=getArrays(); state.idx.p3 = Math.min(p3.length-1, state.idx.p3+1); saveAll(); renderCurrent(); };
+
+// Options
+$("tP1").onchange = ()=>{ state.timing.p1 = Number($("tP1").value); saveAll(); };
+$("tP2").onchange = ()=>{ state.timing.p2 = Number($("tP2").value); saveAll(); };
+$("tP3").onchange = ()=>{ state.timing.p3 = Number($("tP3").value); saveAll(); };
+$("beepOn").onchange = ()=>{ state.beepOn = $("beepOn").checked; saveAll(); };
+$("autoNextTimer").onchange = ()=>{ state.autoNextTimer = $("autoNextTimer").checked; saveAll(); };
+$("autoNextStop").onchange = ()=>{ state.autoNextStop = $("autoNextStop").checked; saveAll(); };
+
+// Timer buttons
+$("startTimer").onclick = ()=> startTimer();
+$("stopTimer").onclick = ()=> stopTimer();
+
+// Student
+$("saveStudent").onclick = ()=>{
+  const sid = $("studentName").value.trim() || "DEFAULT";
+  loadForStudent(sid);
+  alert("Progreso cargado/guardado para: " + (sid==="DEFAULT" ? "(sin nombre)" : sid));
+};
+
+// Reset progress (per student)
+$("resetProgress").onclick = ()=>{
+  if(!confirm("¿Borrar progreso (rúbricas/completado) SOLO para este estudiante?")) return;
+  state.progress = {};
+  saveAll();
+  updateOverview();
+  refreshLists();
+  renderCurrent();
+};
+
+// Random
+$("shuffleP1").onclick = ()=>{
+  const {p1}=getArrays();
+  state.orders.p1 = shuffleArray(p1).map(x=>x.id);
+  state.idx.p1 = 0;
+  saveAll(); refreshLists(); renderCurrent();
+};
+$("shuffleP2").onclick = ()=>{
+  const {p2}=getArrays();
+  state.orders.p2 = shuffleArray(p2).map(x=>x.id);
+  state.idx.p2 = 0;
+  saveAll(); refreshLists(); renderCurrent();
+};
+$("shuffleP3").onclick = ()=>{
+  const {p3}=getArrays();
+  state.orders.p3 = shuffleArray(p3).map(x=>x.id);
+  state.idx.p3 = 0;
+  saveAll(); refreshLists(); renderCurrent();
+};
+$("shuffleAll").onclick = ()=>{
+  const {p1,p2,p3}=getArrays();
+  state.orders.p1 = shuffleArray(p1).map(x=>x.id);
+  state.orders.p2 = shuffleArray(p2).map(x=>x.id);
+  state.orders.p3 = shuffleArray(p3).map(x=>x.id);
+  state.idx = {p1:0,p2:0,p3:0};
+  saveAll(); refreshLists(); renderCurrent();
+};
+
+// Download all recordings
+$("downloadAll").onclick = ()=>{
+  const ids = Object.keys(recordings);
+  if(!ids.length){ alert("Aún no hay grabaciones."); return; }
+  ids.forEach(id=>downloadRecording(id));
+};
+
+// Delegated events (rubric/nav/rec/tts)
+document.body.addEventListener("click", async (e)=>{
+  const nav = e.target.closest("button[data-nav]");
+  if(nav){
+    const which = nav.dataset.nav;
+    const idx = Number(nav.dataset.index);
+    if(which==="p1") state.idx.p1 = idx;
+    if(which==="p2") state.idx.p2 = idx;
+    if(which==="p3") state.idx.p3 = idx;
+    saveAll(); renderCurrent();
+    window.scrollTo({top:0,behavior:"smooth"});
+    return;
+  }
+
+  const act = e.target.closest("button[data-act]");
+  if(act){
+    const id = act.dataset.id;
+    if(act.dataset.act==="done") markDone(id);
+    if(act.dataset.act==="clear") clearItem(id);
+    return;
+  }
+
+  const tts = e.target.closest("button[data-tts]");
+  if(tts){
+    if(tts.dataset.tts==="stop"){ stopSpeak(); return; }
+    if(tts.dataset.tts==="play"){
+      const txt = tts.dataset.text || "";
+      const lang = tts.dataset.lang || "en-US";
+      speakText(txt, lang);
+      return;
+    }
+  }
+
+  const rec = e.target.closest("button[data-rec]");
+  if(rec){
+    const id = rec.dataset.id;
+    try{
+      if(rec.dataset.rec==="start") await startRecording(id);
+      if(rec.dataset.rec==="stop") stopRecording(id);
+      if(rec.dataset.rec==="download") downloadRecording(id);
+    }catch(err){
+      alert("No se pudo grabar:\n\n"+(err?.message || err));
+      setRecUI(id,false);
+    }
+    return;
+  }
+});
+
+document.body.addEventListener("change", (e)=>{
+  const sel = e.target.closest("select[data-rubric]");
+  if(sel){
+    setRubric(sel.dataset.id, sel.dataset.key, Number(sel.value));
+    return;
+  }
+});
+
+/* ===========================
+   12) Init
+=========================== */
+(function init(){
+  // set default student in input
+  $("studentName").value = state.student==="DEFAULT" ? "" : state.student;
+
+  // load last student
+  const last = localStorage.getItem(keyFor("DEFAULT","student")) || "DEFAULT";
+  loadForStudent(last);
+
+  // start in overview
+  setTab("overview");
+  renderRecList();
+})();
 </script>
-
 </body>
 </html>
