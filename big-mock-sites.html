@@ -1,228 +1,735 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BIG Mock Assessment – Grabación</title>
-
-<style>
-:root{
-  --bg:#f6f7fb;
-  --panel:#ffffff;
-  --text:#1c2430;
-  --muted:#5b6b7e;
-  --border:rgba(0,0,0,.15);
-  --accent:#d61f26;
-  --accentSoft:rgba(214,31,38,.08);
-  --shadow:0 10px 28px rgba(0,0,0,.08);
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:
-    radial-gradient(1200px 700px at 15% 10%, rgba(214,31,38,.12), transparent 60%),
-    linear-gradient(180deg,#ffffff,var(--bg));
-  color:var(--text);
-}
-.wrap{max-width:960px;margin:0 auto;padding:20px}
-.card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:16px;
-  box-shadow:var(--shadow);
-}
-.brand{display:flex;gap:12px;align-items:center}
-.dot{
-  width:14px;height:14px;border-radius:50%;
-  background:var(--accent);
-  box-shadow:0 0 0 6px rgba(214,31,38,.15);
-}
-h1{margin:0;font-size:18px}
-p{color:var(--muted);line-height:1.4}
-.notice{
-  margin-top:12px;
-  padding:12px;
-  border-radius:14px;
-  background:var(--accentSoft);
-  border:1px solid rgba(214,31,38,.3);
-  color:#7b1215;
-  font-size:13px;
-}
-.prompt{
-  margin-top:14px;
-  padding:14px;
-  border-radius:16px;
-  border:1px solid var(--border);
-  background:#fff;
-}
-.meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
-.badge{
-  font-size:12px;
-  padding:4px 9px;
-  border-radius:999px;
-  background:var(--accentSoft);
-  border:1px solid rgba(214,31,38,.35);
-  color:#7b1215;
-}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
-.btn{
-  border:1px solid var(--border);
-  background:#fff;
-  padding:10px 12px;
-  border-radius:14px;
-  cursor:pointer;
-}
-.btn.primary{border-color:rgba(214,31,38,.6);background:var(--accentSoft)}
-.btn.good{border-color:rgba(14,165,107,.5);background:rgba(14,165,107,.08)}
-.btn:disabled{opacity:.55;cursor:not-allowed}
-.pill{
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  font-size:12px;
-  color:var(--muted);
-  background:#fff;
-}
-audio{width:100%;margin-top:10px;border-radius:14px}
-.small{font-size:12px;color:var(--muted)}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BIG Mock Assessment (EN↔ES / ES↔EN) — 3 Partes + Grabación</title>
+  <style>
+    :root{
+      --bg:#f6f7fb;
+      --panel:#ffffff;
+      --panel2:#fbfbfe;
+      --text:#1c2430;
+      --muted:#5b6b7e;
+      --border:rgba(20,35,55,.14);
+      --shadow:0 10px 28px rgba(18, 28, 45, .08);
+      --accent:#d61f26;
+      --good:#0ea56b;
+      --warn:#c97a00;
+      --softRed:#ffe7e8;
+      --softBlue:#eaf2ff;
+      --softGray:#f1f3f7;
+    }
+    *{ box-sizing:border-box }
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(214,31,38,.10), transparent 60%),
+        radial-gradient(900px 600px at 85% 15%, rgba(70,130,255,.10), transparent 55%),
+        linear-gradient(180deg, #ffffff, var(--bg));
+      min-height:100vh;
+    }
+    header{ max-width:1180px; margin:0 auto; padding:22px 16px 12px; }
+    .brand{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .logoDot{ width:14px;height:14px;border-radius:50%; background:var(--accent); box-shadow:0 0 0 6px rgba(214,31,38,.12); }
+    h1{ margin:0; font-size:18px; letter-spacing:.2px; }
+    p{ margin:6px 0; color:var(--muted); line-height:1.45; }
+    .wrap{ max-width:1180px; margin:0 auto; padding:0 16px 44px; }
+    .topbar{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      margin:12px 0 14px;
+    }
+    .tabs{ display:flex; gap:8px; flex-wrap:wrap; margin:0; }
+    .tab{ border:1px solid var(--border); background:rgba(255,255,255,.75); color:var(--text);
+      padding:10px 12px; border-radius:14px; cursor:pointer; box-shadow:0 2px 0 rgba(0,0,0,.02);
+    }
+    .tab[aria-selected="true"]{
+      border-color: rgba(214,31,38,.45);
+      box-shadow: 0 0 0 3px rgba(214,31,38,.14) inset;
+      background: rgba(214,31,38,.06);
+    }
+    .grid{ display:grid; grid-template-columns:1fr; gap:12px; }
+    @media (min-width:1000px){ .grid{ grid-template-columns:1.1fr .9fr; } }
+    .card{ background:var(--panel); border:1px solid var(--border); border-radius:18px; padding:14px 14px 12px; box-shadow:var(--shadow); }
+    .card h2{ margin:0 0 8px; font-size:15px; }
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .btn{ border:1px solid var(--border); background:var(--panel2); color:var(--text); padding:10px 12px; border-radius:14px; cursor:pointer; }
+    .btn:hover{ border-color: rgba(20,35,55,.26); }
+    .btn:disabled{ opacity:.55; cursor:not-allowed; }
+    .btn.primary{ border-color: rgba(214,31,38,.55); background: rgba(214,31,38,.08); }
+    .btn.primary:hover{ border-color: rgba(214,31,38,.80); }
+    .btn.good{ border-color: rgba(14,165,107,.45); background: rgba(14,165,107,.08); }
+    .btn.warn{ border-color: rgba(201,122,0,.45); background: rgba(201,122,0,.08); }
+    .pill{ padding:6px 10px; border-radius:999px; border:1px solid var(--border); color:var(--muted); font-size:12px; background:rgba(255,255,255,.7); }
+    .pill strong{ color:var(--text); }
+    .timer{ font-variant-numeric: tabular-nums; }
+    .prompt{ margin-top:10px; padding:12px; border-radius:16px; background:linear-gradient(180deg,#fff,#fbfbff); border:1px solid var(--border); }
+    .prompt .meta{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
+    .badge{ font-size:12px; padding:5px 9px; border-radius:999px; border:1px solid var(--border); color:var(--muted); background:var(--softGray); }
+    .badge.en{ border-color: rgba(70,130,255,.35); background: var(--softBlue); color:#254a9a; }
+    .badge.es{ border-color: rgba(14,165,107,.35); background: rgba(14,165,107,.10); color:#0a6b48; }
+    .badge.rec{ border-color: rgba(214,31,38,.35); background: var(--softRed); color:#8a1014; }
+    .text{ font-size:15px; line-height:1.5; }
+    .actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    .small{ font-size:12px; color:var(--muted); }
+    .divider{ height:1px; background: rgba(20,35,55,.10); margin:10px 0; }
+    .scoreline{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+    .select, .input{
+      background:#fff; color:var(--text); border:1px solid var(--border);
+      padding:9px 10px; border-radius:14px;
+    }
+    .hidden{ display:none !important; }
+    audio{ border-radius:14px; width:100%; }
+    .notice{
+      margin-top:10px; padding:10px 12px; border-radius:14px;
+      border:1px solid rgba(214,31,38,.25);
+      background: rgba(214,31,38,.06);
+      color: #7b1215;
+      font-size:12px;
+      line-height:1.4;
+    }
+    .listScroll{
+      max-height:540px; overflow:auto; padding-right:4px;
+    }
+  </style>
 </head>
 
 <body>
-<div class="wrap">
-  <div class="card">
-    <div class="brand">
-      <span class="dot"></span>
-      <h1>BIG Language Solutions – Mock Assessment</h1>
-    </div>
+<header>
+  <div class="brand">
+    <span class="logoDot" aria-hidden="true"></span>
+    <h1>BIG Mock Assessment (EN↔ES / ES↔EN) — 3 Partes + Grabación</h1>
+  </div>
+  <p>Mock de práctica con el “sabor” del formato: <strong>Parte 1 Sight (10)</strong>, <strong>Parte 2 Consecutivo/Diálogo (20)</strong>, <strong>Parte 3 Terminología (40)</strong>. Grabación por ítem + auto-score.</p>
 
-    <p>Grabación integrada para práctica de interpretación médica (EN↔ES / ES↔EN).</p>
-
-    <div id="iframeWarning" class="notice" style="display:none">
-      <strong>Estás viendo esto dentro de Google Sites.</strong><br>
-      Si el micrófono no funciona aquí, haz clic abajo:
-      <div class="row">
-        <button class="btn primary" id="openNewTab">Abrir en nueva pestaña</button>
-      </div>
-    </div>
-
-    <div class="prompt">
-      <div class="meta">
-        <span class="pill"><strong>PROMPT 1</strong></span>
-        <span class="badge">EN → ES</span>
-        <span class="pill">Estado: <strong id="status">Listo</strong></span>
-      </div>
-
-      <div style="font-size:15px;line-height:1.5">
-        “Please describe your symptoms, when they started, and if anything makes them better or worse.”
-      </div>
-
-      <div class="row">
-        <button class="btn primary" id="recStart">🎙️ Grabar</button>
-        <button class="btn" id="recStop" disabled>⏹️ Parar</button>
-        <button class="btn good" id="recDown" disabled>⬇️ Descargar</button>
-        <span class="pill">Formato: <strong id="fmt">—</strong></span>
-      </div>
-
-      <audio id="player" controls style="display:none"></audio>
-
-      <p class="small">
-        Consejo: interpreta en primera persona y mantén números, tiempos y síntomas.
-      </p>
-    </div>
-
-    <div class="notice">
-      💡 Si el micrófono no aparece, revisa el ícono del candado en la barra del navegador y permite el acceso.
+  <div id="iframeWarning" class="notice" style="display:none">
+    <strong>Estás viendo esto dentro de Google Sites (embed).</strong>
+    Si el micrófono no funciona aquí, usa:
+    <div class="actions">
+      <button class="btn primary" id="openNewTab">Abrir en nueva pestaña</button>
+      <span class="pill">Soluciona bloqueos del iframe</span>
     </div>
   </div>
+</header>
+
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="tabs" role="tablist" aria-label="Secciones">
+      <button class="tab" role="tab" aria-selected="true" data-tab="overview">Resumen</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="part1">Parte 1 — Sight (10)</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="part2">Parte 2 — Diálogo (20)</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="part3">Parte 3 — Terminología (40)</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="recordings">Mis audios</button>
+    </div>
+
+    <div class="row">
+      <label class="pill">Estudiante:
+        <input class="input" id="studentName" placeholder="Nombre / ID" style="min-width:220px" />
+      </label>
+      <button class="btn good" id="saveName">Guardar</button>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section id="overview" class="grid">
+    <div class="card">
+      <h2>Instrucciones rápidas</h2>
+      <div class="divider"></div>
+      <ol style="margin:0; padding-left:18px; color:var(--muted); line-height:1.6">
+        <li>Ve a cada parte. Usa <strong>Siguiente</strong> para avanzar.</li>
+        <li>Graba tu rendición: <strong>🎙️ Grabar</strong> → <strong>⏹️ Parar</strong> → <strong>⬇️ Descargar</strong>.</li>
+        <li>Interpreta en <strong>primera persona</strong>, sin omitir números, dosis, fechas, instrucciones.</li>
+        <li>Marca <strong>✓ Completado</strong> y auto-califica 1–5 por ítem.</li>
+      </ol>
+
+      <div class="notice">
+        <strong>Privacidad:</strong> Las grabaciones se quedan en el dispositivo del estudiante y se descargan como archivo. No se suben automáticamente a ningún servidor.
+      </div>
+
+      <div class="divider"></div>
+      <div class="scoreline">
+        <span class="pill">Completados: <strong id="doneCount">0</strong> / <strong id="totalCount">70</strong></span>
+        <span class="pill">Promedio (1–5): <strong id="avgScore">—</strong></span>
+        <button class="btn warn" id="resetAll">Reiniciar progreso</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Recomendaciones de evaluación (auto)</h2>
+      <div class="divider"></div>
+      <ul style="margin:0; padding-left:18px; color:var(--muted); line-height:1.6">
+        <li><strong>Exactitud:</strong> números, tiempos, términos médicos.</li>
+        <li><strong>Completitud:</strong> no omitir ideas clave.</li>
+        <li><strong>Registro:</strong> profesional / neutral, sin agregar.</li>
+        <li><strong>Fluidez:</strong> sin pausas largas, autocorrecciones mínimas.</li>
+        <li><strong>Protocolo:</strong> primera persona, pedir repetición si aplica.</li>
+      </ul>
+      <div class="divider"></div>
+      <p class="small">Si quieres, luego puedo añadir una rúbrica más detallada y un “score final” por sección.</p>
+    </div>
+  </section>
+
+  <!-- PART 1 -->
+  <section id="part1" class="grid hidden">
+    <div class="card">
+      <h2>Parte 1 — Sight Translation (10)</h2>
+      <p class="small">Lee 3–5 segundos y luego interpreta en voz alta (EN→ES).</p>
+      <div class="row">
+        <button class="btn" id="p1Prev">Anterior</button>
+        <button class="btn primary" id="p1Next">Siguiente</button>
+        <span class="pill">Ítem: <strong id="p1Pos">1</strong>/10</span>
+      </div>
+      <div class="divider"></div>
+      <div class="prompt" id="p1Prompt"></div>
+    </div>
+
+    <div class="card">
+      <h2>Lista Parte 1</h2>
+      <p class="small">Puedes saltar a un ítem desde aquí.</p>
+      <div class="divider"></div>
+      <div id="p1List" class="listScroll"></div>
+    </div>
+  </section>
+
+  <!-- PART 2 -->
+  <section id="part2" class="grid hidden">
+    <div class="card">
+      <h2>Parte 2 — Consecutivo/Diálogo (20)</h2>
+      <p class="small">Turnos alternando EN↔ES. Interpreta cada turno al otro idioma.</p>
+      <div class="row">
+        <button class="btn" id="p2Prev">Anterior</button>
+        <button class="btn primary" id="p2Next">Siguiente</button>
+        <span class="pill">Turno: <strong id="p2Pos">1</strong>/20</span>
+      </div>
+      <div class="divider"></div>
+      <div class="prompt" id="p2Prompt"></div>
+    </div>
+
+    <div class="card">
+      <h2>Lista Parte 2</h2>
+      <p class="small">Puedes saltar a un turno desde aquí.</p>
+      <div class="divider"></div>
+      <div id="p2List" class="listScroll"></div>
+    </div>
+  </section>
+
+  <!-- PART 3 -->
+  <section id="part3" class="grid hidden">
+    <div class="card">
+      <h2>Parte 3 — Terminología (40)</h2>
+      <p class="small">Rendición rápida EN→ES (términos comunes de consulta).</p>
+      <div class="row">
+        <button class="btn" id="p3Prev">Anterior</button>
+        <button class="btn primary" id="p3Next">Siguiente</button>
+        <span class="pill">Término: <strong id="p3Pos">1</strong>/40</span>
+      </div>
+      <div class="divider"></div>
+      <div class="prompt" id="p3Prompt"></div>
+    </div>
+
+    <div class="card">
+      <h2>Lista Parte 3</h2>
+      <p class="small">Puedes saltar a un término desde aquí.</p>
+      <div class="divider"></div>
+      <div id="p3List" class="listScroll"></div>
+    </div>
+  </section>
+
+  <!-- RECORDINGS -->
+  <section id="recordings" class="grid hidden">
+    <div class="card">
+      <h2>Mis audios (esta sesión)</h2>
+      <p class="small">Aquí aparecen los audios grabados. Puedes reproducirlos y descargarlos.</p>
+      <div class="divider"></div>
+      <div class="row">
+        <button class="btn good" id="downloadAll">⬇️ Descargar todos</button>
+        <span class="pill">Audios: <strong id="recCount">0</strong></span>
+      </div>
+      <div class="divider"></div>
+      <div id="recList"></div>
+      <div class="notice">
+        <strong>Importante:</strong> el navegador no permite guardar automáticamente “en lote” en algunos equipos; puede pedir confirmación por cada descarga.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Notas</h2>
+      <div class="divider"></div>
+      <p class="small">
+        Si quieres que los estudiantes <strong>suban</strong> los audios automáticamente a un lugar (Drive/Dropbox),
+        eso ya requiere un backend o una integración adicional (por privacidad y seguridad).
+      </p>
+    </div>
+  </section>
+
 </div>
 
 <script>
-const inIframe = (()=>{try{return window.self!==window.top}catch{return true}})();
-if(inIframe){
-  document.getElementById("iframeWarning").style.display="block";
-  document.getElementById("openNewTab").onclick=()=>{
-    window.open(window.location.href,"_blank","noopener");
-  };
-}
-
-let stream=null, recorder=null, chunks=[], url=null, mimeUsed=null;
-
-const startBtn=document.getElementById("recStart");
-const stopBtn=document.getElementById("recStop");
-const downBtn=document.getElementById("recDown");
-const statusEl=document.getElementById("status");
-const player=document.getElementById("player");
-const fmtEl=document.getElementById("fmt");
-
-function ui(recording){
-  startBtn.disabled=recording;
-  stopBtn.disabled=!recording;
-  downBtn.disabled=!url;
-  statusEl.textContent=recording?"Grabando…":(url?"Listo (con audio)":"Listo");
-  fmtEl.textContent=mimeUsed||"—";
-}
-
-async function ensureMic(){
-  if(stream) return stream;
-  if(!navigator.mediaDevices?.getUserMedia)
-    throw new Error("Micrófono no soportado.");
-  stream=await navigator.mediaDevices.getUserMedia({audio:true});
-  return stream;
-}
-
-function pickMime(){
-  const types=[
-    "audio/webm;codecs=opus",
-    "audio/webm",
-    "audio/mp4"
+  // --------- DATA (70 ÍTEMS) ----------
+  const part1 = [
+    { id:"P1-01", from:"EN", text:"INTERPRETER PRE-SESSION: The interpreter will interpret everything said in the first person, keep all information confidential, and may request repetition or clarification when needed." },
+    { id:"P1-02", from:"EN", text:"CONSENT FOR TELEHEALTH: I understand this visit is being conducted by phone or video. I may stop the visit at any time. I agree to proceed." },
+    { id:"P1-03", from:"EN", text:"MEDICATION INSTRUCTIONS: Take 1 tablet (500 mg) by mouth every 12 hours for 7 days. Finish all medication even if you feel better." },
+    { id:"P1-04", from:"EN", text:"ALLERGY WARNING: Stop taking the medication and seek care immediately if you develop facial swelling, trouble breathing, or hives." },
+    { id:"P1-05", from:"EN", text:"DISCHARGE: Return to the emergency room for chest pain, shortness of breath, severe headache, weakness on one side, or confusion." },
+    { id:"P1-06", from:"EN", text:"LAB NOTICE: Your blood sugar is 215 mg/dL today. The provider will discuss diet changes and whether you need medication adjustments." },
+    { id:"P1-07", from:"EN", text:"FOLLOW-UP: Schedule an appointment with your primary care provider within 1–2 weeks. Bring your medication bottles or an updated list." },
+    { id:"P1-08", from:"EN", text:"IMAGING PREP: Do not eat or drink for 6 hours before your CT scan with contrast. Tell staff if you have kidney disease or take metformin." },
+    { id:"P1-09", from:"EN", text:"PATIENT RIGHTS: You have the right to receive information in a language you understand and to ask questions about your care." },
+    { id:"P1-10", from:"EN", text:"PAYMENT POLICY: Co-pay is due at the time of service. If you cannot pay today, ask about payment plans." }
   ];
-  if(!window.MediaRecorder) return null;
-  return types.find(t=>MediaRecorder.isTypeSupported(t));
-}
 
-startBtn.onclick=async()=>{
-  try{
-    await ensureMic();
-    const mime=pickMime();
-    if(!mime) throw new Error("MediaRecorder no soportado.");
-    mimeUsed=mime;
-    chunks=[];
-    recorder=new MediaRecorder(stream,{mimeType:mime});
-    recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
-    recorder.onstop=()=>{
-      const blob=new Blob(chunks,{type:mime});
-      if(url)URL.revokeObjectURL(url);
-      url=URL.createObjectURL(blob);
-      player.src=url;
-      player.style.display="block";
-      ui(false);
-    };
-    recorder.start();
-    ui(true);
-  }catch(err){
-    alert("No se pudo grabar.\n\n"+err.message);
-    ui(false);
+  const part2 = [
+    { id:"P2-01", from:"EN", role:"Provider", text:"Hello, this is the clinic. Before we start, can you confirm your full name and date of birth?" },
+    { id:"P2-02", from:"ES", role:"Paciente", text:"Sí, me llamo Ana María Ríos y nací el 14 de marzo de 1989." },
+    { id:"P2-03", from:"EN", role:"Provider", text:"Thank you. What is the main reason for your call today?" },
+    { id:"P2-04", from:"ES", role:"Paciente", text:"Tengo dolor de garganta y fiebre desde hace dos días." },
+    { id:"P2-05", from:"EN", role:"Provider", text:"What is your temperature, and how are you measuring it?" },
+    { id:"P2-06", from:"ES", role:"Paciente", text:"Me dio 38.5 con termómetro digital, por la boca." },
+    { id:"P2-07", from:"EN", role:"Provider", text:"Any shortness of breath, chest pain, or trouble swallowing your saliva?" },
+    { id:"P2-08", from:"ES", role:"Paciente", text:"No dolor de pecho no, pero sí me duele al tragar y siento el cuello inflamado." },
+    { id:"P2-09", from:"EN", role:"Provider", text:"Do you have a cough? Is it dry or with mucus? Any sick contacts?" },
+    { id:"P2-10", from:"ES", role:"Paciente", text:"Tengo tos seca. Mi hijo estuvo enfermo la semana pasada." },
+    { id:"P2-11", from:"EN", role:"Provider", text:"Any allergies to medications? And what medicines are you taking right now?" },
+    { id:"P2-12", from:"ES", role:"Paciente", text:"Soy alérgica a la penicilina. Estoy tomando acetaminofén y té caliente." },
+    { id:"P2-13", from:"EN", role:"Provider", text:"On a scale from 0 to 10, how bad is the throat pain? Any ear pain?" },
+    { id:"P2-14", from:"ES", role:"Paciente", text:"Como 7. Y sí, me duele un poco el oído derecho." },
+    { id:"P2-15", from:"EN", role:"Provider", text:"We’ll do a rapid strep test and possibly a COVID/flu test. If strep is positive, we’ll choose an antibiotic safe with your allergy." },
+    { id:"P2-16", from:"ES", role:"Paciente", text:"¿Hoy mismo me atienden o me toca pedir cita?" },
+    { id:"P2-17", from:"EN", role:"Provider", text:"We can see you today at 3:30 PM. Please arrive 15 minutes early, wear a mask, and bring your ID and insurance card." },
+    { id:"P2-18", from:"ES", role:"Paciente", text:"Listo. ¿Qué hago si me sube más la fiebre en la noche?" },
+    { id:"P2-19", from:"EN", role:"Provider", text:"If your fever is 103°F (39.4°C) or higher, if you have difficulty breathing, or if you cannot swallow fluids, go to urgent care or the ER." },
+    { id:"P2-20", from:"ES", role:"Paciente", text:"Entendido. Muchas gracias." }
+  ];
+
+  const part3 = [
+    { id:"P3-01", from:"EN", text:"sore throat" },
+    { id:"P3-02", from:"EN", text:"fever" },
+    { id:"P3-03", from:"EN", text:"swollen lymph nodes" },
+    { id:"P3-04", from:"EN", text:"earache" },
+    { id:"P3-05", from:"EN", text:"dry cough" },
+    { id:"P3-06", from:"EN", text:"mucus / phlegm" },
+    { id:"P3-07", from:"EN", text:"shortness of breath" },
+    { id:"P3-08", from:"EN", text:"chest pain" },
+    { id:"P3-09", from:"EN", text:"trouble swallowing" },
+    { id:"P3-10", from:"EN", text:"rapid strep test" },
+    { id:"P3-11", from:"EN", text:"allergy to penicillin" },
+    { id:"P3-12", from:"EN", text:"hives" },
+    { id:"P3-13", from:"EN", text:"facial swelling" },
+    { id:"P3-14", from:"EN", text:"anaphylaxis" },
+    { id:"P3-15", from:"EN", text:"side effects" },
+    { id:"P3-16", from:"EN", text:"dose" },
+    { id:"P3-17", from:"EN", text:"every 12 hours" },
+    { id:"P3-18", from:"EN", text:"take with food" },
+    { id:"P3-19", from:"EN", text:"finish the full course" },
+    { id:"P3-20", from:"EN", text:"over-the-counter medication" },
+    { id:"P3-21", from:"EN", text:"acetaminophen" },
+    { id:"P3-22", from:"EN", text:"ibuprofen" },
+    { id:"P3-23", from:"EN", text:"antibiotic" },
+    { id:"P3-24", from:"EN", text:"viral infection" },
+    { id:"P3-25", from:"EN", text:"bacterial infection" },
+    { id:"P3-26", from:"EN", text:"dehydration" },
+    { id:"P3-27", from:"EN", text:"nausea" },
+    { id:"P3-28", from:"EN", text:"vomiting" },
+    { id:"P3-29", from:"EN", text:"diarrhea" },
+    { id:"P3-30", from:"EN", text:"abdominal pain" },
+    { id:"P3-31", from:"EN", text:"blood pressure" },
+    { id:"P3-32", from:"EN", text:"heart rate" },
+    { id:"P3-33", from:"EN", text:"oxygen saturation" },
+    { id:"P3-34", from:"EN", text:"telehealth visit" },
+    { id:"P3-35", from:"EN", text:"urgent care" },
+    { id:"P3-36", from:"EN", text:"emergency room" },
+    { id:"P3-37", from:"EN", text:"follow-up appointment" },
+    { id:"P3-38", from:"EN", text:"primary care provider" },
+    { id:"P3-39", from:"EN", text:"consent" },
+    { id:"P3-40", from:"EN", text:"confidentiality" }
+  ];
+
+  const ALL = [...part1, ...part2, ...part3];
+
+  // --------- GOOGLE SITES / IFRAME DETECT ----------
+  const inIframe = (() => { try { return window.self !== window.top; } catch { return true; } })();
+  if (inIframe) {
+    const w = document.getElementById("iframeWarning");
+    w.style.display = "block";
+    document.getElementById("openNewTab").onclick = () => window.open(window.location.href, "_blank", "noopener,noreferrer");
   }
-};
 
-stopBtn.onclick=()=>{
-  if(recorder && recorder.state==="recording") recorder.stop();
-};
+  // --------- STATE ----------
+  const KEY_PROGRESS = "BIG_MockProgress_full_v1";
+  const KEY_STUDENT  = "BIG_MockStudent_v1";
+  const state = {
+    idx: { p1: 0, p2: 0, p3: 0 },
+    progress: JSON.parse(localStorage.getItem(KEY_PROGRESS) || "{}"),
+    student: localStorage.getItem(KEY_STUDENT) || ""
+  };
 
-downBtn.onclick=()=>{
-  if(!url) return;
-  const a=document.createElement("a");
-  a.href=url;
-  a.download="BIG-mock-audio.webm";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-};
+  // recordings in-memory (per session)
+  const recordings = {}; // { [id]: { url, blob, mime, filename } }
+  let micStream = null;
+  let recorder = null;
+  let currentId = null;
+  let chunks = [];
 
-ui(false);
+  // --------- HELPERS ----------
+  const $ = (id)=>document.getElementById(id);
+  const escapeHTML = (s)=>String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+  const saveProgress = ()=>localStorage.setItem(KEY_PROGRESS, JSON.stringify(state.progress));
+
+  function getScoreStats(){
+    const entries = Object.values(state.progress);
+    const done = entries.filter(e=>e?.done).length;
+    const scored = entries.filter(e=>typeof e?.score==="number");
+    const avg = scored.length ? scored.reduce((a,b)=>a+b.score,0)/scored.length : null;
+    return { done, total: ALL.length, avg };
+  }
+
+  function updateOverview(){
+    const {done,total,avg} = getScoreStats();
+    $("doneCount").textContent = done;
+    $("totalCount").textContent = total;
+    $("avgScore").textContent = avg ? avg.toFixed(2) : "—";
+  }
+
+  function langBadge(item){
+    return item.from === "EN"
+      ? `<span class="badge en">EN → ES</span>`
+      : `<span class="badge es">ES → EN</span>`;
+  }
+
+  function buildFilename(id){
+    const base = (state.student || "student").trim().replace(/[^\w\-]+/g,"_");
+    const ts = new Date().toISOString().replace(/[:.]/g,"-");
+    return `${base}_${id}_${ts}.webm`;
+  }
+
+  // --------- AUDIO RECORDING ----------
+  async function ensureMic(){
+    if (micStream) return micStream;
+    if (!navigator.mediaDevices?.getUserMedia) throw new Error("Tu navegador no soporta grabación (getUserMedia).");
+    micStream = await navigator.mediaDevices.getUserMedia({ audio:true });
+    return micStream;
+  }
+
+  function pickMime(){
+    const cands = ["audio/webm;codecs=opus","audio/webm","audio/mp4"];
+    if (!window.MediaRecorder) return null;
+    return cands.find(t => MediaRecorder.isTypeSupported(t)) || null;
+  }
+
+  function setRecUI(isRecording, id){
+    const startBtn = document.querySelector(`button[data-rec="start"][data-id="${id}"]`);
+    const stopBtn  = document.querySelector(`button[data-rec="stop"][data-id="${id}"]`);
+    const dlBtn    = document.querySelector(`button[data-rec="download"][data-id="${id}"]`);
+    const statusEl = document.getElementById(`recStatus-${id}`);
+    const has = !!recordings[id];
+
+    if (startBtn) startBtn.disabled = isRecording;
+    if (stopBtn)  stopBtn.disabled = !isRecording;
+    if (dlBtn)    dlBtn.disabled = !has;
+
+    if (statusEl) statusEl.textContent = isRecording ? "Grabando…" : (has ? "Listo (con clip)" : "Listo");
+  }
+
+  async function startRecording(id){
+    if (recorder && recorder.state === "recording") return;
+    await ensureMic();
+    const mime = pickMime();
+    if (!mime) throw new Error("MediaRecorder no está disponible en este navegador.");
+
+    chunks = [];
+    currentId = id;
+    recorder = new MediaRecorder(micStream, { mimeType: mime });
+
+    recorder.ondataavailable = (e)=>{ if (e.data && e.data.size>0) chunks.push(e.data); };
+    recorder.onstop = ()=>{
+      const blob = new Blob(chunks, { type:mime });
+      const url = URL.createObjectURL(blob);
+      if (recordings[id]?.url) URL.revokeObjectURL(recordings[id].url);
+
+      const filename = buildFilename(id);
+      recordings[id] = { url, blob, mime, filename };
+
+      const player = document.getElementById(`player-${id}`);
+      if (player) { player.src = url; player.style.display = "block"; }
+
+      setRecUI(false, id);
+      renderRecList();
+      currentId = null;
+    };
+
+    recorder.start();
+    setRecUI(true, id);
+  }
+
+  function stopRecording(id){
+    if (!recorder || recorder.state !== "recording") return;
+    if (id !== currentId) return;
+    recorder.stop();
+  }
+
+  function downloadRecording(id){
+    const r = recordings[id];
+    if (!r) return;
+    const a = document.createElement("a");
+    a.href = r.url;
+    a.download = r.filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  // --------- PROGRESS ACTIONS ----------
+  function markDone(id){
+    state.progress[id] = state.progress[id] || {};
+    state.progress[id].done = true;
+    if (typeof state.progress[id].score !== "number") state.progress[id].score = 3;
+    saveProgress(); updateOverview(); refreshLists();
+  }
+
+  function setScore(id, score){
+    state.progress[id] = state.progress[id] || {};
+    state.progress[id].score = score;
+    saveProgress(); updateOverview();
+  }
+
+  function clearItem(id){
+    delete state.progress[id];
+    saveProgress(); updateOverview(); refreshLists();
+  }
+
+  // --------- RENDER PROMPT ----------
+  function makePromptHTML(item, pos, total){
+    const role = item.role ? `<span class="badge">${escapeHTML(item.role)}</span>` : "";
+    const has = !!recordings[item.id];
+    const score = typeof state.progress[item.id]?.score === "number" ? state.progress[item.id].score : 3;
+    const done = !!state.progress[item.id]?.done;
+
+    return `
+      <div class="meta">
+        <span class="pill"><strong>${escapeHTML(item.id)}</strong> · ${pos}/${total}</span>
+        ${langBadge(item)}
+        ${role}
+        <span class="badge rec">Grabación: <strong id="recStatus-${escapeHTML(item.id)}">${has ? "Listo (con clip)" : "Listo"}</strong></span>
+        <span class="pill">Estado: <strong style="color:${done ? "var(--good)" : "var(--warn)"}">${done ? "Completado" : "Pendiente"}</strong></span>
+      </div>
+
+      <div class="text">${escapeHTML(item.text)}</div>
+
+      <div class="actions" style="margin-top:12px">
+        <button class="btn primary" data-rec="start" data-id="${escapeHTML(item.id)}">🎙️ Grabar</button>
+        <button class="btn" data-rec="stop" data-id="${escapeHTML(item.id)}" disabled>⏹️ Parar</button>
+        <button class="btn good" data-rec="download" data-id="${escapeHTML(item.id)}" ${has ? "" : "disabled"}>⬇️ Descargar</button>
+        <span class="pill">Formato: <strong>webm</strong></span>
+      </div>
+
+      <audio id="player-${escapeHTML(item.id)}" controls style="margin-top:10px; display:${has ? "block" : "none"}" ${has ? `src="${recordings[item.id].url}"` : ""}></audio>
+
+      <div class="actions">
+        <button class="btn good" data-act="done" data-id="${escapeHTML(item.id)}">✓ Completado</button>
+        <label class="pill">Auto-score:
+          <select class="select" data-act="score" data-id="${escapeHTML(item.id)}">
+            ${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===score ? "selected":""}>${n}</option>`).join("")}
+          </select>
+        </label>
+        <button class="btn" data-act="clear" data-id="${escapeHTML(item.id)}">Limpiar</button>
+      </div>
+
+      <div class="small" style="margin-top:8px">
+        5=excelente · 4=muy bien · 3=aceptable · 2=problemas serios · 1=no logrado
+      </div>
+    `;
+  }
+
+  function renderCurrent(){
+    // Part 1
+    const i1 = state.idx.p1;
+    $("p1Pos").textContent = String(i1+1);
+    $("p1Prompt").innerHTML = makePromptHTML(part1[i1], i1+1, part1.length);
+
+    // Part 2
+    const i2 = state.idx.p2;
+    $("p2Pos").textContent = String(i2+1);
+    $("p2Prompt").innerHTML = makePromptHTML(part2[i2], i2+1, part2.length);
+
+    // Part 3
+    const i3 = state.idx.p3;
+    $("p3Pos").textContent = String(i3+1);
+    $("p3Prompt").innerHTML = makePromptHTML(part3[i3], i3+1, part3.length);
+
+    // Sync rec button state
+    setRecUI(false, part1[i1].id);
+    setRecUI(false, part2[i2].id);
+    setRecUI(false, part3[i3].id);
+  }
+
+  function makeListHTML(items, prefix){
+    return items.map((item, idx)=>{
+      const done = !!state.progress[item.id]?.done;
+      const score = typeof state.progress[item.id]?.score === "number" ? state.progress[item.id].score : 3;
+      const has = !!recordings[item.id];
+      return `
+        <div class="prompt" style="margin-bottom:10px">
+          <div class="meta">
+            <span class="pill"><strong>${escapeHTML(item.id)}</strong></span>
+            ${langBadge(item)}
+            ${item.role ? `<span class="badge">${escapeHTML(item.role)}</span>` : ""}
+            <span class="pill">Estado: <strong style="color:${done ? "var(--good)" : "var(--warn)"}">${done ? "Completado" : "Pendiente"}</strong></span>
+            <span class="badge rec">Audio: <strong>${has ? "Sí" : "No"}</strong></span>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" data-nav="${prefix}" data-index="${idx}">Ir a este</button>
+            <button class="btn good" data-act="done" data-id="${escapeHTML(item.id)}">✓</button>
+            <label class="pill">Score:
+              <select class="select" data-act="score" data-id="${escapeHTML(item.id)}">
+                ${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===score ? "selected":""}>${n}</option>`).join("")}
+              </select>
+            </label>
+            <button class="btn" data-act="clear" data-id="${escapeHTML(item.id)}">Limpiar</button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function refreshLists(){
+    $("p1List").innerHTML = makeListHTML(part1,"p1");
+    $("p2List").innerHTML = makeListHTML(part2,"p2");
+    $("p3List").innerHTML = makeListHTML(part3,"p3");
+  }
+
+  function renderRecList(){
+    const ids = Object.keys(recordings);
+    $("recCount").textContent = String(ids.length);
+    const el = $("recList");
+    if (!ids.length){
+      el.innerHTML = `<p class="small">Aún no has grabado audios en esta sesión.</p>`;
+      return;
+    }
+    el.innerHTML = ids.map(id=>{
+      const r = recordings[id];
+      return `
+        <div class="prompt" style="margin-bottom:10px">
+          <div class="meta">
+            <span class="pill"><strong>${escapeHTML(id)}</strong></span>
+            <span class="pill">${escapeHTML(r.filename)}</span>
+          </div>
+          <audio controls src="${r.url}"></audio>
+          <div class="actions">
+            <button class="btn good" data-rec="download" data-id="${escapeHTML(id)}">⬇️ Descargar</button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  // --------- TABS ----------
+  function setTab(tabId){
+    ["overview","part1","part2","part3","recordings"].forEach(sec=>{
+      $(sec).classList.toggle("hidden", sec !== tabId);
+    });
+    document.querySelectorAll(".tab").forEach(btn=>{
+      btn.setAttribute("aria-selected", btn.dataset.tab === tabId ? "true" : "false");
+    });
+  }
+  document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click", ()=>setTab(btn.dataset.tab)));
+
+  // --------- NAV BUTTONS + ACTIONS + REC ----------
+  document.body.addEventListener("click", async (e)=>{
+    // navigation from lists
+    const nav = e.target.closest("button[data-nav]");
+    if (nav){
+      const which = nav.dataset.nav;
+      const idx = Number(nav.dataset.index);
+      if (which === "p1") state.idx.p1 = idx;
+      if (which === "p2") state.idx.p2 = idx;
+      if (which === "p3") state.idx.p3 = idx;
+      renderCurrent();
+      // scroll to top of left card
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    // progress actions
+    const actBtn = e.target.closest("button[data-act]");
+    if (actBtn){
+      const act = actBtn.dataset.act;
+      const id = actBtn.dataset.id;
+      if (act === "done") markDone(id);
+      if (act === "clear") clearItem(id);
+      return;
+    }
+
+    // record actions
+    const recBtn = e.target.closest("button[data-rec]");
+    if (recBtn){
+      const act = recBtn.dataset.rec;
+      const id = recBtn.dataset.id;
+      try{
+        if (act === "start") await startRecording(id);
+        if (act === "stop") stopRecording(id);
+        if (act === "download") downloadRecording(id);
+      }catch(err){
+        alert("No se pudo grabar:\n\n" + (err?.message || err));
+        console.error(err);
+        setRecUI(false, id);
+      }
+      return;
+    }
+  });
+
+  document.body.addEventListener("change", (e)=>{
+    const sel = e.target.closest("select[data-act='score']");
+    if (!sel) return;
+    const id = sel.dataset.id;
+    const v = Number(sel.value);
+    setScore(id, v);
+  });
+
+  // --------- SECTION NAV NEXT/PREV ----------
+  $("p1Next").onclick = ()=>{ state.idx.p1 = Math.min(part1.length-1, state.idx.p1+1); renderCurrent(); };
+  $("p1Prev").onclick = ()=>{ state.idx.p1 = Math.max(0, state.idx.p1-1); renderCurrent(); };
+
+  $("p2Next").onclick = ()=>{ state.idx.p2 = Math.min(part2.length-1, state.idx.p2+1); renderCurrent(); };
+  $("p2Prev").onclick = ()=>{ state.idx.p2 = Math.max(0, state.idx.p2-1); renderCurrent(); };
+
+  $("p3Next").onclick = ()=>{ state.idx.p3 = Math.min(part3.length-1, state.idx.p3+1); renderCurrent(); };
+  $("p3Prev").onclick = ()=>{ state.idx.p3 = Math.max(0, state.idx.p3-1); renderCurrent(); };
+
+  // --------- STUDENT NAME ----------
+  $("studentName").value = state.student;
+  $("saveName").onclick = ()=>{
+    state.student = $("studentName").value.trim();
+    localStorage.setItem(KEY_STUDENT, state.student);
+    alert("Nombre guardado. Los audios se descargarán con ese nombre.");
+  };
+
+  // --------- DOWNLOAD ALL ----------
+  $("downloadAll").onclick = ()=>{
+    const ids = Object.keys(recordings);
+    if (!ids.length){ alert("Aún no hay audios grabados."); return; }
+    ids.forEach(id => downloadRecording(id));
+  };
+
+  // --------- RESET ----------
+  $("resetAll").onclick = ()=>{
+    if (!confirm("¿Seguro que quieres borrar progreso y scores?")) return;
+    state.progress = {};
+    saveProgress();
+    updateOverview();
+    refreshLists();
+    renderCurrent();
+  };
+
+  // --------- INIT ----------
+  updateOverview();
+  refreshLists();
+  renderCurrent();
+  renderRecList();
 </script>
 </body>
 </html>
