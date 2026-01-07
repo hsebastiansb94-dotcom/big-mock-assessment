@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>BIG Mock Assessment (EN↔ES) — 70 Ítems + Audio + Grabación + Rúbrica + Instructor</title>
+<title>BIG Mock Assessment (EN↔ES) — 70 Ítems + Audio + Grabación + Rúbrica</title>
 <style>
   :root{
     --bg:#f6f7fb;
@@ -106,11 +106,6 @@
   .hidden{display:none !important}
   .listScroll{max-height:560px;overflow:auto;padding-right:4px}
   .miniRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-  .lockBox{
-    padding:10px 12px;border-radius:14px;border:1px dashed rgba(20,35,55,.25);
-    background:rgba(255,255,255,.7); color:var(--muted); font-size:13px;
-  }
-  .danger{color:#842029}
 </style>
 </head>
 
@@ -118,24 +113,23 @@
 <header>
   <div class="brand">
     <span class="dot" aria-hidden="true"></span>
-    <h1>BIG Mock Assessment (EN↔ES) — 70 Ítems + Audio + Grabación + Rúbrica + Instructor</h1>
+    <h1>BIG Mock Assessment (EN↔ES) — 70 Ítems + Audio + Grabación + Rúbrica</h1>
   </div>
   <p class="small">
     Mock de práctica (no oficial): Sight (10), Diálogo (20), Terminología (40).
-    Los <b>textos están ocultos</b> para estudiantes; solo el Instructor puede verlos y calificar.
+    Cada ítem tiene <b>audio TTS</b>, <b>grabación</b>, <b>rúbrica</b> y <b>progreso por estudiante</b>.
   </p>
   <div id="jsStatus" class="notice">⏳ Cargando JavaScript…</div>
 </header>
 
 <div class="wrap">
   <div class="topbar">
-    <div class="tabs" id="tabsBar">
+    <div class="tabs">
       <button class="tab active" data-tab="overview">Resumen</button>
       <button class="tab" data-tab="p1">Parte 1 — Sight (10)</button>
       <button class="tab" data-tab="p2">Parte 2 — Diálogo (20)</button>
       <button class="tab" data-tab="p3">Parte 3 — Terminología (40)</button>
-      <button class="tab hidden" id="tabRecordings" data-tab="recordings">Grabaciones</button>
-      <button class="tab" data-tab="instructor">Instructor</button>
+      <button class="tab" data-tab="recordings">Mis audios</button>
     </div>
 
     <div class="row">
@@ -144,7 +138,6 @@
       </label>
       <button class="btn good" id="saveStudent">Guardar</button>
       <span class="pill">Timer: <strong class="mono" id="timerRead">00:00</strong></span>
-      <span class="pill">Instructor: <strong id="instBadge" class="danger">OFF</strong></span>
     </div>
   </div>
 
@@ -207,8 +200,8 @@
       </div>
 
       <div class="notice">
-        <b>Estudiantes:</b> solo ven el audio (TTS) y graban respuesta.  
-        <b>Instructor (1122):</b> puede ver texto y calificar con rúbrica.
+        <b>Audio de preguntas:</b> se reproduce con voz del navegador (TTS).  
+        <b>Grabación:</b> queda para descargar (no se sube a internet).
       </div>
     </div>
 
@@ -235,14 +228,17 @@
           </select>
         </label>
       </div>
+
       <div class="divider"></div>
+
       <div class="small">
-        El botón 🔊 reproduce la pregunta como audio del navegador. El texto estará oculto para estudiantes.
+        Si no escuchas audio: revisa que tu navegador tenga sonido activo y permite reproducción.  
+        En algunos equipos la lista de voces tarda 2–3 segundos en aparecer.
       </div>
     </div>
   </section>
 
-  <!-- PART 1 -->
+  <!-- PARTS -->
   <section id="p1" class="grid hidden">
     <div class="card">
       <h2>Parte 1 — Sight (10) (EN→ES)</h2>
@@ -261,7 +257,6 @@
     </div>
   </section>
 
-  <!-- PART 2 -->
   <section id="p2" class="grid hidden">
     <div class="card">
       <h2>Parte 2 — Diálogo (20) (EN↔ES)</h2>
@@ -280,7 +275,6 @@
     </div>
   </section>
 
-  <!-- PART 3 -->
   <section id="p3" class="grid hidden">
     <div class="card">
       <h2>Parte 3 — Terminología (40) (EN→ES)</h2>
@@ -299,82 +293,26 @@
     </div>
   </section>
 
-  <!-- RECORDINGS (Instructor only) -->
+  <!-- RECORDINGS -->
   <section id="recordings" class="grid hidden">
     <div class="card">
-      <h2>Grabaciones (solo Instructor)</h2>
-      <div class="small">
-        Aquí aparecen las grabaciones hechas en <b>este mismo navegador/equipo</b> (sesión actual).
-        Para grabaciones externas, el instructor puede <b>subir archivos</b> y calificarlos.
-      </div>
-      <div class="divider"></div>
-
+      <h2>Mis grabaciones (esta sesión)</h2>
       <div class="row">
-        <button class="btn good" id="downloadAll">⬇️ Descargar todas (sesión)</button>
-        <span class="pill">Audios sesión: <strong id="recCount">0</strong></span>
+        <button class="btn good" id="downloadAll">⬇️ Descargar todos</button>
+        <span class="pill">Audios: <strong id="recCount">0</strong></span>
       </div>
-
-      <div class="divider"></div>
-
-      <div class="card" style="box-shadow:none;border-radius:14px">
-        <h2 style="margin:0 0 8px">Subir audios de estudiantes (para calificar aquí)</h2>
-        <div class="small">
-          El estudiante descarga sus .webm/.mp3 y el instructor los sube aquí.
-        </div>
-        <div class="row" style="margin-top:10px">
-          <input class="input" type="file" id="uploadAudio" accept="audio/*" multiple>
-        </div>
-        <div class="small" style="margin-top:8px">
-          Recomendación: que el archivo tenga el ID del ítem en el nombre (ej: <b>P2-07</b>).
-        </div>
-      </div>
-
       <div class="divider"></div>
       <div id="recList"></div>
+      <div class="notice">
+        Los audios no se guardan tras recargar (por seguridad del navegador). Descárgalos.
+      </div>
     </div>
-
     <div class="card">
-      <h2>Progreso y calificación</h2>
+      <h2>Progreso</h2>
       <div class="divider"></div>
       <p class="small">
-        La rúbrica se guarda por estudiante en este navegador (LocalStorage).  
-        Para cambiar de estudiante: escribe su Nombre/ID arriba → Guardar.
+        El progreso (rúbricas/completado/orden random) se guarda por <b>Nombre/ID</b> en este navegador.
       </p>
-    </div>
-  </section>
-
-  <!-- INSTRUCTOR -->
-  <section id="instructor" class="grid hidden">
-    <div class="card">
-      <h2>Modo Instructor 🔒</h2>
-      <div class="row">
-        <label class="pill">Contraseña:
-          <input class="input" id="instPass" type="password" placeholder="1122" style="width:160px">
-        </label>
-        <button class="btn primary" id="instLogin">Ingresar</button>
-        <button class="btn" id="instLogout">Salir</button>
-        <span class="pill">Estado: <strong id="instState" class="danger">Bloqueado</strong></span>
-      </div>
-
-      <div class="notice">
-        Cuando Instructor está activado:
-        <ul style="margin:8px 0 0 18px">
-          <li>Se muestra el <b>texto</b> de las preguntas</li>
-          <li>Se habilita la <b>rúbrica</b> para calificar</li>
-          <li>Se habilita la pestaña <b>Grabaciones</b></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Exportar calificaciones (CSV)</h2>
-      <div class="divider"></div>
-      <div class="row">
-        <button class="btn warn" id="exportCSV" disabled>Exportar CSV (Instructor)</button>
-      </div>
-      <div class="small" style="margin-top:8px">
-        Exporta la rúbrica del estudiante actual (Nombre/ID).
-      </div>
     </div>
   </section>
 </div>
@@ -446,14 +384,15 @@ const BASE_P3 = [
 ].map((t,i)=>({id:`P3-${String(i+1).padStart(2,"0")}`,from:"EN",text:t}));
 
 /* ===========================
-   2) Estado por estudiante (LocalStorage) + Instructor
+   2) Estado por estudiante (LocalStorage)
 =========================== */
 const $ = (id)=>document.getElementById(id);
-const KEY_PREFIX = "BIG_MOCK_V2";
+
+const KEY_PREFIX = "BIG_MOCK_V1";
 function keyFor(studentId, suffix){ return `${KEY_PREFIX}::${studentId || "DEFAULT"}::${suffix}`; }
 
 const state = {
-  student: localStorage.getItem(keyFor("DEFAULT","student")) || "DEFAULT",
+  student: localStorage.getItem(keyFor("DEFAULT","student")) || "",
   idx: {p1:0,p2:0,p3:0},
   orders: {p1:null,p2:null,p3:null},
   timing: {p1:50,p2:40,p3:8},
@@ -462,13 +401,11 @@ const state = {
   autoNextStop: false,
   activeTab: "overview",
   timer: {running:false,t:0,interval:null,section:"p1"},
-  progress: {},
-  instructorUnlocked: localStorage.getItem(keyFor("DEFAULT","instructor"))==="true",
-  instructorPass: localStorage.getItem(keyFor("DEFAULT","pass")) || "1122"
+  progress: {} // id -> {accuracy, completeness, delivery, protocol, final, done}
 };
 
 // session recordings (not persisted)
-const recordings = {}; // id -> {url, blob, filename, source:"session"|"upload"}
+const recordings = {}; // id -> {url, blob, filename}
 let micStream=null, mediaRecorder=null, currentRecId=null, chunks=[];
 
 /* ===========================
@@ -485,8 +422,8 @@ function defaultRubric(){ return {accuracy:3,completeness:3,delivery:3,protocol:
 function calcFinal(v){ return Math.round(((v.accuracy+v.completeness+v.delivery+v.protocol)/4)*100)/100; }
 
 function saveAll(){
-  const sid = (state.student || "DEFAULT").trim() || "DEFAULT";
-  localStorage.setItem(keyFor("DEFAULT","student"), sid);
+  const sid = (state.student || "DEFAULT").trim();
+  localStorage.setItem(keyFor("DEFAULT","student"), sid); // last used
   localStorage.setItem(keyFor(sid,"idx"), JSON.stringify(state.idx));
   localStorage.setItem(keyFor(sid,"orders"), JSON.stringify(state.orders));
   localStorage.setItem(keyFor(sid,"progress"), JSON.stringify(state.progress));
@@ -496,13 +433,11 @@ function saveAll(){
     autoNextTimer: state.autoNextTimer,
     autoNextStop: state.autoNextStop
   }));
-  localStorage.setItem(keyFor("DEFAULT","instructor"), state.instructorUnlocked ? "true" : "false");
-  localStorage.setItem(keyFor("DEFAULT","pass"), state.instructorPass);
 }
 
 function loadForStudent(sid){
-  const id = (sid || "DEFAULT").trim() || "DEFAULT";
-  state.student = id;
+  const id = (sid || "DEFAULT").trim();
+  state.student = id === "" ? "DEFAULT" : id;
 
   const idx = localStorage.getItem(keyFor(state.student,"idx"));
   const orders = localStorage.getItem(keyFor(state.student,"orders"));
@@ -528,7 +463,6 @@ function loadForStudent(sid){
   $("autoNextTimer").checked = state.autoNextTimer;
   $("autoNextStop").checked = state.autoNextStop;
 
-  updateInstructorUI();
   updateOverview();
   refreshLists();
   renderCurrent();
@@ -536,6 +470,7 @@ function loadForStudent(sid){
 }
 
 function getArrays(){
+  // apply saved random order
   const applyOrder = (items, order)=>{
     if(!Array.isArray(order) || order.length!==items.length) return [...items];
     const map=new Map(items.map(x=>[x.id,x]));
@@ -570,7 +505,7 @@ function beep(){
 }
 
 /* ===========================
-   4) TTS (Audio de preguntas)
+   4) TTS (Audio de preguntas) con speechSynthesis
 =========================== */
 let voices = [];
 function loadVoices(){
@@ -587,6 +522,7 @@ function loadVoices(){
     opt.textContent = `${v.name} — ${v.lang}`;
     sel.appendChild(opt);
   });
+  // heurística: preferir en-US si existe
   const preferred = voices.findIndex(v => /en-US/i.test(v.lang));
   sel.value = preferred>=0 ? String(preferred) : "0";
 }
@@ -594,6 +530,7 @@ if("speechSynthesis" in window){
   loadVoices();
   speechSynthesis.onvoiceschanged = loadVoices;
 }
+
 function speakText(text, langHint){
   stopSpeak();
   if(!("speechSynthesis" in window)){
@@ -601,14 +538,20 @@ function speakText(text, langHint){
     return;
   }
   const u = new SpeechSynthesisUtterance(text);
-  u.rate = Number($("rateSel").value || "1");
-  u.pitch = Number($("pitchSel").value || "1");
+  const rate = Number($("rateSel").value || "1");
+  const pitch = Number($("pitchSel").value || "1");
+  u.rate = rate; u.pitch = pitch;
+
   const idx = Number($("voiceSelect").value || "0");
   if(voices[idx]) u.voice = voices[idx];
+
+  // hint: intenta setear lang (ayuda a pronunciación)
   u.lang = langHint || (voices[idx]?.lang || "en-US");
   speechSynthesis.speak(u);
 }
-function stopSpeak(){ try{ speechSynthesis.cancel(); }catch{} }
+function stopSpeak(){
+  try{ speechSynthesis.cancel(); }catch{}
+}
 
 /* ===========================
    5) Grabación por ítem
@@ -657,7 +600,7 @@ async function startRecording(id){
     const blob = new Blob(chunks, {type:mime});
     const url = URL.createObjectURL(blob);
     if(recordings[id]?.url) URL.revokeObjectURL(recordings[id].url);
-    recordings[id] = { url, blob, filename: filenameFor(id), source:"session" };
+    recordings[id] = { url, blob, filename: filenameFor(id) };
 
     const player = document.getElementById(`player-${id}`);
     if(player){ player.src = url; player.style.display = "block"; }
@@ -665,6 +608,7 @@ async function startRecording(id){
     setRecUI(id, false);
     renderRecList();
 
+    // auto-next on stop recording
     if(state.autoNextStop) nextInActiveSection();
   };
 
@@ -684,57 +628,28 @@ function downloadRecording(id){
   if(!r) return;
   const a=document.createElement("a");
   a.href=r.url;
-  a.download=r.filename || `audio_${id}.webm`;
+  a.download=r.filename;
   document.body.appendChild(a);
   a.click();
   a.remove();
 }
 
-function inferItemIdFromFilename(name){
-  const m = String(name).toUpperCase().match(/P[123]-\d{2}/);
-  return m ? m[0] : null;
-}
-
-function addUploadedFiles(fileList){
-  const files = Array.from(fileList||[]);
-  if(!files.length) return;
-
-  files.forEach(file=>{
-    const url = URL.createObjectURL(file);
-    const inferred = inferItemIdFromFilename(file.name) || `UP-${Math.random().toString(16).slice(2,8).toUpperCase()}`;
-    // allow multiple uploads per same item: keep unique key
-    let key = inferred;
-    if(recordings[key]) key = `${inferred}-${Math.random().toString(16).slice(2,5).toUpperCase()}`;
-    recordings[key] = { url, blob: file, filename: file.name, source:"upload" };
-  });
-  renderRecList();
-}
-
 function renderRecList(){
   const ids = Object.keys(recordings);
   $("recCount").textContent = String(ids.length);
-
   const el = $("recList");
-  if(!state.instructorUnlocked){
-    el.innerHTML = `<div class="lockBox">🔒 Solo Instructor puede ver grabaciones.</div>`;
-    return;
-  }
   if(!ids.length){
-    el.innerHTML = `<p class="small">Aún no hay grabaciones.</p>`;
+    el.innerHTML = `<p class="small">Aún no has grabado audios en esta sesión.</p>`;
     return;
   }
-
   el.innerHTML = ids.map(id=>{
     const r = recordings[id];
-    const tag = r.source==="upload" ? "Subido" : "Sesión";
     return `
       <div class="prompt" style="margin-bottom:10px">
         <div class="meta">
           <span class="pill"><strong>${esc(id)}</strong></span>
-          <span class="badge rec">${tag}</span>
-          <span class="pill">${esc(r.filename || "")}</span>
+          <span class="pill">${esc(r.filename)}</span>
           <button class="btn good" data-rec="download" data-id="${esc(id)}">⬇️ Descargar</button>
-          <button class="btn primary" data-jump="${esc(id)}">Ir a ítem</button>
         </div>
         <audio controls src="${r.url}"></audio>
       </div>
@@ -743,14 +658,9 @@ function renderRecList(){
 }
 
 /* ===========================
-   6) Rúbrica por ítem — SOLO Instructor
+   6) Rúbrica por ítem
 =========================== */
 function setRubric(id, key, val){
-  if(!state.instructorUnlocked){
-    alert("Solo Instructor puede calificar.");
-    renderCurrent();
-    return;
-  }
   const v = state.progress[id] || defaultRubric();
   v[key] = val;
   v.final = calcFinal(v);
@@ -761,10 +671,6 @@ function setRubric(id, key, val){
   if(fin) fin.textContent = v.final.toFixed(2);
 }
 function markDone(id){
-  if(!state.instructorUnlocked){
-    alert("Solo Instructor puede marcar completado.");
-    return;
-  }
   const v = state.progress[id] || defaultRubric();
   v.done = true;
   v.final = calcFinal(v);
@@ -775,10 +681,6 @@ function markDone(id){
   renderCurrent();
 }
 function clearItem(id){
-  if(!state.instructorUnlocked){
-    alert("Solo Instructor puede limpiar la rúbrica.");
-    return;
-  }
   delete state.progress[id];
   saveAll();
   updateOverview();
@@ -787,14 +689,13 @@ function clearItem(id){
 }
 
 /* ===========================
-   7) Render de cada ítem (texto oculto)
+   7) Render de cada ítem
 =========================== */
 function rubricSelect(id, key, label, val){
-  const dis = state.instructorUnlocked ? "" : "disabled";
   return `
     <div class="rubItem">
       <label>${label}</label>
-      <select class="select" ${dis} data-rubric="1" data-id="${esc(id)}" data-key="${esc(key)}">
+      <select class="select" data-rubric="1" data-id="${esc(id)}" data-key="${esc(key)}">
         ${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===val?"selected":""}>${n}</option>`).join("")}
       </select>
     </div>
@@ -806,12 +707,11 @@ function promptHTML(item, pos, total){
   const has = !!recordings[item.id];
   const role = item.role ? `<span class="badge">${esc(item.role)}</span>` : "";
 
-  const langHint = item.from==="ES" ? "es-ES" : "en-US";
+  // audio text: speak the prompt text as-is
+  const audioText = item.text;
 
-  const showText = state.instructorUnlocked;
-  const textBlock = showText
-    ? `<div class="text">${esc(item.text)}</div>`
-    : `<div class="lockBox">🙈 Texto oculto. <b>Solo Instructor</b> puede desbloquearlo.</div>`;
+  // language hint
+  const langHint = item.from==="ES" ? "es-ES" : "en-US";
 
   return `
     <div class="meta">
@@ -822,12 +722,12 @@ function promptHTML(item, pos, total){
       <span class="pill">Estado: <strong style="color:${v.done ? "var(--good)" : "var(--warn)"}">${v.done ? "Completado" : "Pendiente"}</strong></span>
     </div>
 
-    ${textBlock}
+    <div class="text">${esc(item.text)}</div>
 
     <div class="divider"></div>
 
     <div class="row">
-      <button class="btn primary" data-tts="play" data-lang="${langHint}" data-text="${esc(item.text)}">🔊 Reproducir pregunta (audio)</button>
+      <button class="btn primary" data-tts="play" data-lang="${langHint}" data-text="${esc(audioText)}">🔊 Reproducir pregunta</button>
       <button class="btn" data-tts="stop">🔇 Detener</button>
     </div>
 
@@ -843,7 +743,7 @@ function promptHTML(item, pos, total){
 
     <div class="divider"></div>
 
-    <h2 style="margin:0 0 8px">Rúbrica (1–5) ${state.instructorUnlocked ? "" : "<span class='small'>(bloqueada)</span>"}</h2>
+    <h2 style="margin:0 0 8px">Rúbrica (1–5)</h2>
     <div class="rubricGrid">
       ${rubricSelect(item.id,"accuracy","Accuracy",v.accuracy)}
       ${rubricSelect(item.id,"completeness","Completeness",v.completeness)}
@@ -852,8 +752,8 @@ function promptHTML(item, pos, total){
     </div>
 
     <div class="row" style="margin-top:10px">
-      <button class="btn good" data-act="done" data-id="${esc(item.id)}" ${state.instructorUnlocked?"":"disabled"}>✓ Marcar completado</button>
-      <button class="btn" data-act="clear" data-id="${esc(item.id)}" ${state.instructorUnlocked?"":"disabled"}>Limpiar</button>
+      <button class="btn good" data-act="done" data-id="${esc(item.id)}">✓ Marcar completado</button>
+      <button class="btn" data-act="clear" data-id="${esc(item.id)}">Limpiar</button>
     </div>
 
     <div class="small" style="margin-top:8px">
@@ -877,7 +777,8 @@ function listHTML(items, prefix){
         </div>
         <div class="row">
           <button class="btn primary" data-nav="${prefix}" data-index="${idx}">Ir</button>
-          <button class="btn good" data-act="done" data-id="${esc(it.id)}" ${state.instructorUnlocked?"":"disabled"}>✓</button>
+          <button class="btn good" data-act="done" data-id="${esc(it.id)}">✓</button>
+          <button class="btn" data-act="clear" data-id="${esc(it.id)}">Limpiar</button>
         </div>
       </div>
     `;
@@ -915,7 +816,7 @@ function renderCurrent(){
    8) Progreso global (overview)
 =========================== */
 function updateOverview(){
-  const {all} = getArrays();
+  const {all,p1,p2,p3} = getArrays();
   const vals = Object.values(state.progress);
 
   const done = vals.filter(v=>v?.done).length;
@@ -941,11 +842,10 @@ function setTab(tabId){
   const label = tabId==="overview" ? "Resumen" : tabId.toUpperCase();
   $("activeSection").textContent = label;
 
+  // timer section mapping
   if(tabId==="p1") state.timer.section = "p1";
   if(tabId==="p2") state.timer.section = "p2";
   if(tabId==="p3") state.timer.section = "p3";
-
-  // guard
   saveAll();
 }
 
@@ -981,64 +881,14 @@ function startTimer(){
 }
 
 /* ===========================
-   11) Instructor UI + Export CSV
+   11) Eventos UI
 =========================== */
-function updateInstructorUI(){
-  $("instState").textContent = state.instructorUnlocked ? "Desbloqueado" : "Bloqueado";
-  $("instState").className = state.instructorUnlocked ? "" : "danger";
-  $("instBadge").textContent = state.instructorUnlocked ? "ON" : "OFF";
-  $("instBadge").className = state.instructorUnlocked ? "" : "danger";
-
-  // recordings tab visible only when instructor
-  $("tabRecordings").classList.toggle("hidden", !state.instructorUnlocked);
-
-  // enable export
-  $("exportCSV").disabled = !state.instructorUnlocked;
-
-  // if instructor is OFF and user currently on recordings -> return to overview
-  if(!state.instructorUnlocked && state.activeTab==="recordings"){
-    setTab("overview");
-  }
-
-  // rerender current to show/hide text and lock/unlock rubric
-  refreshLists();
-  renderCurrent();
-  renderRecList();
-}
-
-function downloadText(filename, text){
-  const blob=new Blob([text],{type:"text/plain;charset=utf-8"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url; a.download=filename;
-  document.body.appendChild(a); a.click(); a.remove();
-  URL.revokeObjectURL(url);
-}
-
-function exportCSV(){
-  if(!state.instructorUnlocked){ alert("Solo Instructor."); return; }
-  const {all}=getArrays();
-  const rows=[["student","id","section","accuracy","completeness","delivery","protocol","final","done"].join(",")];
-  for(const it of all){
-    const v=state.progress[it.id]||defaultRubric();
-    const sec=it.id.startsWith("P1-")?"P1":it.id.startsWith("P2-")?"P2":"P3";
-    rows.push([
-      (state.student||"DEFAULT").replaceAll(","," "),
-      it.id,sec,v.accuracy,v.completeness,v.delivery,v.protocol,
-      (typeof v.final==="number"?v.final:""),
-      (v.done?"yes":"no")
-    ].join(","));
-  }
-  downloadText(`BIG_mock_scores_${(state.student||"student").replace(/[^\w\-]+/g,"_")}.csv`, rows.join("\n"));
-}
-
-/* ===========================
-   12) Eventos UI
-=========================== */
+// Tabs
 document.querySelectorAll(".tab").forEach(btn=>{
   btn.addEventListener("click", ()=> setTab(btn.dataset.tab));
 });
 
+// Prev/Next
 $("p1Prev").onclick = ()=>{ state.idx.p1 = Math.max(0, state.idx.p1-1); saveAll(); renderCurrent(); };
 $("p1Next").onclick = ()=>{ const {p1}=getArrays(); state.idx.p1 = Math.min(p1.length-1, state.idx.p1+1); saveAll(); renderCurrent(); };
 $("p2Prev").onclick = ()=>{ state.idx.p2 = Math.max(0, state.idx.p2-1); saveAll(); renderCurrent(); };
@@ -1046,6 +896,7 @@ $("p2Next").onclick = ()=>{ const {p2}=getArrays(); state.idx.p2 = Math.min(p2.l
 $("p3Prev").onclick = ()=>{ state.idx.p3 = Math.max(0, state.idx.p3-1); saveAll(); renderCurrent(); };
 $("p3Next").onclick = ()=>{ const {p3}=getArrays(); state.idx.p3 = Math.min(p3.length-1, state.idx.p3+1); saveAll(); renderCurrent(); };
 
+// Options
 $("tP1").onchange = ()=>{ state.timing.p1 = Number($("tP1").value); saveAll(); };
 $("tP2").onchange = ()=>{ state.timing.p2 = Number($("tP2").value); saveAll(); };
 $("tP3").onchange = ()=>{ state.timing.p3 = Number($("tP3").value); saveAll(); };
@@ -1053,15 +904,18 @@ $("beepOn").onchange = ()=>{ state.beepOn = $("beepOn").checked; saveAll(); };
 $("autoNextTimer").onchange = ()=>{ state.autoNextTimer = $("autoNextTimer").checked; saveAll(); };
 $("autoNextStop").onchange = ()=>{ state.autoNextStop = $("autoNextStop").checked; saveAll(); };
 
+// Timer buttons
 $("startTimer").onclick = ()=> startTimer();
 $("stopTimer").onclick = ()=> stopTimer();
 
+// Student
 $("saveStudent").onclick = ()=>{
   const sid = $("studentName").value.trim() || "DEFAULT";
   loadForStudent(sid);
   alert("Progreso cargado/guardado para: " + (sid==="DEFAULT" ? "(sin nombre)" : sid));
 };
 
+// Reset progress (per student)
 $("resetProgress").onclick = ()=>{
   if(!confirm("¿Borrar progreso (rúbricas/completado) SOLO para este estudiante?")) return;
   state.progress = {};
@@ -1071,6 +925,7 @@ $("resetProgress").onclick = ()=>{
   renderCurrent();
 };
 
+// Random
 $("shuffleP1").onclick = ()=>{
   const {p1}=getArrays();
   state.orders.p1 = shuffleArray(p1).map(x=>x.id);
@@ -1098,41 +953,14 @@ $("shuffleAll").onclick = ()=>{
   saveAll(); refreshLists(); renderCurrent();
 };
 
+// Download all recordings
 $("downloadAll").onclick = ()=>{
-  if(!state.instructorUnlocked){ alert("Solo Instructor."); return; }
   const ids = Object.keys(recordings);
   if(!ids.length){ alert("Aún no hay grabaciones."); return; }
   ids.forEach(id=>downloadRecording(id));
 };
 
-$("uploadAudio").addEventListener("change", (e)=>{
-  if(!state.instructorUnlocked){ alert("Solo Instructor."); e.target.value=""; return; }
-  addUploadedFiles(e.target.files);
-  e.target.value="";
-});
-
-$("instLogin").onclick = ()=>{
-  const pass = $("instPass").value.trim();
-  if(pass === state.instructorPass){
-    state.instructorUnlocked = true;
-    $("instPass").value="";
-    saveAll();
-    updateInstructorUI();
-    alert("Instructor desbloqueado.");
-  }else{
-    alert("Contraseña incorrecta.");
-  }
-};
-
-$("instLogout").onclick = ()=>{
-  state.instructorUnlocked = false;
-  saveAll();
-  updateInstructorUI();
-};
-
-$("exportCSV").onclick = exportCSV;
-
-// Delegated events (rubric/nav/rec/tts/jump)
+// Delegated events (rubric/nav/rec/tts)
 document.body.addEventListener("click", async (e)=>{
   const nav = e.target.closest("button[data-nav]");
   if(nav){
@@ -1143,16 +971,6 @@ document.body.addEventListener("click", async (e)=>{
     if(which==="p3") state.idx.p3 = idx;
     saveAll(); renderCurrent();
     window.scrollTo({top:0,behavior:"smooth"});
-    return;
-  }
-
-  const jump = e.target.closest("button[data-jump]");
-  if(jump){
-    const id = jump.dataset.jump;
-    // try to navigate to matching item by id prefix
-    if(/^P1-/.test(id)){ setTab("p1"); const {p1}=getArrays(); const i=p1.findIndex(x=>x.id===id); if(i>=0){ state.idx.p1=i; saveAll(); renderCurrent(); } }
-    if(/^P2-/.test(id)){ setTab("p2"); const {p2}=getArrays(); const i=p2.findIndex(x=>x.id===id); if(i>=0){ state.idx.p2=i; saveAll(); renderCurrent(); } }
-    if(/^P3-/.test(id)){ setTab("p3"); const {p3}=getArrays(); const i=p3.findIndex(x=>x.id===id); if(i>=0){ state.idx.p3=i; saveAll(); renderCurrent(); } }
     return;
   }
 
@@ -1199,25 +1017,20 @@ document.body.addEventListener("change", (e)=>{
 });
 
 /* ===========================
-   13) Init
+   12) Init
 =========================== */
 (function init(){
-  // voices
-  if("speechSynthesis" in window){
-    loadVoices();
-    speechSynthesis.onvoiceschanged = loadVoices;
-  }
+  // set default student in input
+  $("studentName").value = state.student==="DEFAULT" ? "" : state.student;
 
   // load last student
   const last = localStorage.getItem(keyFor("DEFAULT","student")) || "DEFAULT";
   loadForStudent(last);
 
-  // start overview
+  // start in overview
   setTab("overview");
-  updateInstructorUI();
   renderRecList();
 })();
 </script>
 </body>
 </html>
-
