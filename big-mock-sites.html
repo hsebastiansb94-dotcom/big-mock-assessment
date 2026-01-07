@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BIG Mock Assessment – Grabación</title>
+
+<style>
+:root{
+  --bg:#f6f7fb;
+  --panel:#ffffff;
+  --text:#1c2430;
+  --muted:#5b6b7e;
+  --border:rgba(0,0,0,.15);
+  --accent:#d61f26;
+  --accentSoft:rgba(214,31,38,.08);
+  --shadow:0 10px 28px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(1200px 700px at 15% 10%, rgba(214,31,38,.12), transparent 60%),
+    linear-gradient(180deg,#ffffff,var(--bg));
+  color:var(--text);
+}
+.wrap{max-width:960px;margin:0 auto;padding:20px}
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:var(--shadow);
+}
+.brand{display:flex;gap:12px;align-items:center}
+.dot{
+  width:14px;height:14px;border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 0 6px rgba(214,31,38,.15);
+}
+h1{margin:0;font-size:18px}
+p{color:var(--muted);line-height:1.4}
+.notice{
+  margin-top:12px;
+  padding:12px;
+  border-radius:14px;
+  background:var(--accentSoft);
+  border:1px solid rgba(214,31,38,.3);
+  color:#7b1215;
+  font-size:13px;
+}
+.prompt{
+  margin-top:14px;
+  padding:14px;
+  border-radius:16px;
+  border:1px solid var(--border);
+  background:#fff;
+}
+.meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.badge{
+  font-size:12px;
+  padding:4px 9px;
+  border-radius:999px;
+  background:var(--accentSoft);
+  border:1px solid rgba(214,31,38,.35);
+  color:#7b1215;
+}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.btn{
+  border:1px solid var(--border);
+  background:#fff;
+  padding:10px 12px;
+  border-radius:14px;
+  cursor:pointer;
+}
+.btn.primary{border-color:rgba(214,31,38,.6);background:var(--accentSoft)}
+.btn.good{border-color:rgba(14,165,107,.5);background:rgba(14,165,107,.08)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.pill{
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  font-size:12px;
+  color:var(--muted);
+  background:#fff;
+}
+audio{width:100%;margin-top:10px;border-radius:14px}
+.small{font-size:12px;color:var(--muted)}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="brand">
+      <span class="dot"></span>
+      <h1>BIG Language Solutions – Mock Assessment</h1>
+    </div>
+
+    <p>Grabación integrada para práctica de interpretación médica (EN↔ES / ES↔EN).</p>
+
+    <div id="iframeWarning" class="notice" style="display:none">
+      <strong>Estás viendo esto dentro de Google Sites.</strong><br>
+      Si el micrófono no funciona aquí, haz clic abajo:
+      <div class="row">
+        <button class="btn primary" id="openNewTab">Abrir en nueva pestaña</button>
+      </div>
+    </div>
+
+    <div class="prompt">
+      <div class="meta">
+        <span class="pill"><strong>PROMPT 1</strong></span>
+        <span class="badge">EN → ES</span>
+        <span class="pill">Estado: <strong id="status">Listo</strong></span>
+      </div>
+
+      <div style="font-size:15px;line-height:1.5">
+        “Please describe your symptoms, when they started, and if anything makes them better or worse.”
+      </div>
+
+      <div class="row">
+        <button class="btn primary" id="recStart">🎙️ Grabar</button>
+        <button class="btn" id="recStop" disabled>⏹️ Parar</button>
+        <button class="btn good" id="recDown" disabled>⬇️ Descargar</button>
+        <span class="pill">Formato: <strong id="fmt">—</strong></span>
+      </div>
+
+      <audio id="player" controls style="display:none"></audio>
+
+      <p class="small">
+        Consejo: interpreta en primera persona y mantén números, tiempos y síntomas.
+      </p>
+    </div>
+
+    <div class="notice">
+      💡 Si el micrófono no aparece, revisa el ícono del candado en la barra del navegador y permite el acceso.
+    </div>
+  </div>
+</div>
+
+<script>
+const inIframe = (()=>{try{return window.self!==window.top}catch{return true}})();
+if(inIframe){
+  document.getElementById("iframeWarning").style.display="block";
+  document.getElementById("openNewTab").onclick=()=>{
+    window.open(window.location.href,"_blank","noopener");
+  };
+}
+
+let stream=null, recorder=null, chunks=[], url=null, mimeUsed=null;
+
+const startBtn=document.getElementById("recStart");
+const stopBtn=document.getElementById("recStop");
+const downBtn=document.getElementById("recDown");
+const statusEl=document.getElementById("status");
+const player=document.getElementById("player");
+const fmtEl=document.getElementById("fmt");
+
+function ui(recording){
+  startBtn.disabled=recording;
+  stopBtn.disabled=!recording;
+  downBtn.disabled=!url;
+  statusEl.textContent=recording?"Grabando…":(url?"Listo (con audio)":"Listo");
+  fmtEl.textContent=mimeUsed||"—";
+}
+
+async function ensureMic(){
+  if(stream) return stream;
+  if(!navigator.mediaDevices?.getUserMedia)
+    throw new Error("Micrófono no soportado.");
+  stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  return stream;
+}
+
+function pickMime(){
+  const types=[
+    "audio/webm;codecs=opus",
+    "audio/webm",
+    "audio/mp4"
+  ];
+  if(!window.MediaRecorder) return null;
+  return types.find(t=>MediaRecorder.isTypeSupported(t));
+}
+
+startBtn.onclick=async()=>{
+  try{
+    await ensureMic();
+    const mime=pickMime();
+    if(!mime) throw new Error("MediaRecorder no soportado.");
+    mimeUsed=mime;
+    chunks=[];
+    recorder=new MediaRecorder(stream,{mimeType:mime});
+    recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+    recorder.onstop=()=>{
+      const blob=new Blob(chunks,{type:mime});
+      if(url)URL.revokeObjectURL(url);
+      url=URL.createObjectURL(blob);
+      player.src=url;
+      player.style.display="block";
+      ui(false);
+    };
+    recorder.start();
+    ui(true);
+  }catch(err){
+    alert("No se pudo grabar.\n\n"+err.message);
+    ui(false);
+  }
+};
+
+stopBtn.onclick=()=>{
+  if(recorder && recorder.state==="recording") recorder.stop();
+};
+
+downBtn.onclick=()=>{
+  if(!url) return;
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="BIG-mock-audio.webm";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+};
+
+ui(false);
+</script>
+</body>
+</html>
